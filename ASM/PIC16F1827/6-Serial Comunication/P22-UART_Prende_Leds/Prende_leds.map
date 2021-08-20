@@ -1,0 +1,45 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Sat Jun 15 02:53:10 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000088
+.config_8007_PRENDE_LEDS.O       code   0x008007    program   0x000002
+.config_8008_PRENDE_LEDS.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000047      
+                            0x008007    0x008008      
+            71 out of 4359 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    APAGA   0x00002c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                   INICIO   0x000009    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                     NEXT   0x000024    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                    START   0x00001c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                 UART_INI   0x000034    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000009    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                    START   0x00001c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                     NEXT   0x000024    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                    APAGA   0x00002c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+                 UART_INI   0x000034    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 6 - Comunicacion Serial\P22-UART_Prende_Leds\Prende_leds.asm
+
+

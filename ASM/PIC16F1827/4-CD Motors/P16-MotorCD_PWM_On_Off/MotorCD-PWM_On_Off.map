@@ -1,0 +1,63 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Fri May 31 18:07:16 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000c4
+.config_8007_MOTORCD-PWM_ON_OFF.O       code   0x008007    program   0x000002
+.config_8008_MOTORCD-PWM_ON_OFF.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000065      
+                            0x008007    0x008008      
+            101 out of 4359 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                 ARRANQUE   0x000046    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                    CARGA   0x000008    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+            CONFIGURACION   0x000020    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                    DECRE   0x000016    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                      FIN   0x00001e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                   INICIO   0x00003f    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                   INTERR   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                     NEXT   0x00001a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                   OTRA0M   0x00005d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                   OTRA1M   0x00005b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                     PARO   0x00004f    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                  PROCESO   0x000012    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+              RETARDO_5MS   0x000059    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                      SEC   0x00004b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INTERR   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                    CARGA   0x000008    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                  PROCESO   0x000012    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                    DECRE   0x000016    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                     NEXT   0x00001a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                      FIN   0x00001e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+            CONFIGURACION   0x000020    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                   INICIO   0x00003f    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                 ARRANQUE   0x000046    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                      SEC   0x00004b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                     PARO   0x00004f    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+              RETARDO_5MS   0x000059    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                   OTRA1M   0x00005b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+                   OTRA0M   0x00005d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P16-MotorCD_PWM_On_Off\MotorCD-PWM_On_Off.asm
+
+

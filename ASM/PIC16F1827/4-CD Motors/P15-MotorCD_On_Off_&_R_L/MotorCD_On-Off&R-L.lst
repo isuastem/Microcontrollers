@@ -1,0 +1,1098 @@
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00002         INCLUDE <P16F1827.INC>                                  ;DECLARO LA LIBRERIA DEL MICROCONTROLADO
+                            R CORRESPONDIENTE
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F1827 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2012 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      01305         LIST
+                      00003 
+                      00004 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00005 ;P A L A B R A   D E   C O N F I G U R A C I O N
+                      00006 
+Message[303]: Program word too large.  Truncated to core size. (CF84)
+8007   0F84           00007        __CONFIG   _CONFIG1, _FOSC_INTOSC & _WDTE_OFF & _PWRTE_ON & _MCLRE_OFF & _CP_OFF & _CPD_OFF & _BO
+                            REN_ON & _CLKOUTEN_OFF & _IESO_OFF & _FCMEN_OFF
+Message[303]: Program word too large.  Truncated to core size. (DFFF)
+8008   1FFF           00008        __CONFIG   _CONFIG2, _WRT_OFF & _PLLEN_ON & _STVREN_ON  & _LVP_OFF       
+                      00009 
+                      00010 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00011 ;E L I M I N A C I O N  D E  M E N S A J E S  D E  C O M P I L A C I O N
+                      00012 
+                      00013         ERRORLEVEL  -207                                        ; ELIMINO DE LA VENTANA DE COMPILACION E
+                            L ERROR 207
+                      00014         ERRORLEVEL  -302                                        ; ELIMINO DE LA VENTANA DE COMPILACION E
+                            L ERROR 302
+                      00015         ERRORLEVEL  -305                                        ; ELIMINO DE LA VENTANA DE COMPILACION E
+                            L ERROR 305
+                      00016 
+                      00017 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00018 ;D E C L A R A C I O N  D E  R E G I S T R O S  D E  P R O P O S I T O  G E N E R A L
+                      00019 
+                      00020 
+                      00021 ;DECLARO LOS REGISTROS DE PROPOSITO GENERAL A USAR EN  SECCION DE BANCO 2 (LATB)
+                      00022         CBLOCK  0X120                                                   
+  00000120            00023         NUM1,NUM2,NUM3
+                      00024         ENDC
+                      00025 
+                      00026 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00027 ;D E C L A R A C I O N  D E  E N T R A D A S  Y  S A L I D A S  E N  C O D I G O
+                      00028 
+                      00029    #DEFINE B_ARRANQUE           PORTA,0
+                      00030    #DEFINE B_PARO                   PORTA,1
+                      00031    #DEFINE B_IZQUIERDA          PORTA,2
+                      00032    #DEFINE B_DERECHA            PORTA,3
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00033 
+                      00034 
+                      00035    #DEFINE SALIDA1              LATB,0
+                      00036    #DEFINE SALIDA2              LATB,1
+                      00037 
+                      00038 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00039 ;V E C T O R  D E  I N I C I A L I Z A C I O N
+0000                  00040         ORG     0X00
+0000   2805           00041         GOTO CONFIGURACION                                              ;DECLARO EL VECTOR DE INICIO O R
+                            ESET
+                      00042 
+                      00043 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00044 ;V E C T O R  D E  I N T E R R U P C I O N
+0004                  00045         ORG 0X04                                                        ; DECLARO EL VECTOR DE INTERRUPC
+                            ION
+                      00046 
+0004   0009           00047         RETFIE
+                      00048 
+                      00049 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00050 ;C O N F I G U R A C I O N  D E  E N T R A D A S  Y  S A L I D A S
+                      00051 
+0005                  00052 CONFIGURACION:          
+0005   0021           00053                 BANKSEL OSCCON          
+0006   30F0           00054                 MOVLW   B'11110000'             ;CONFIGURO EL REGISTRO OSCCON
+0007   0099           00055                 MOVWF   OSCCON                  ;B7=SPLLEN:4xPLL ON/ B6-3=ICRF:32MHz/ B2:0/ B1-0=SCS: CL
+                            OCK DETER BY FOSC
+                      00056 
+                      00057         
+0008   0022           00058                 BANKSEL APFCON0
+0009   307F           00059                 MOVLW   B'01111111'             ;CONFIGURO LOS REGISTROS        APFCON0 Y APFCON1
+000A   009D           00060                 MOVWF   APFCON0
+                      00061                         
+000B   0022           00062                 BANKSEL APFCON1
+000C   3000           00063                 MOVLW   B'00000000'
+000D   009E           00064                 MOVWF   APFCON1
+                      00065                 
+000E   0023           00066                 BANKSEL ANSELB
+000F   018D           00067                 CLRF    ANSELB                  ;DESHABILITO LOS CANALES ANALOGICOS
+0010   018C           00068                 CLRF    ANSELA 
+                      00069 
+0011   0021           00070                 BANKSEL TRISB   
+0012   018D           00071                 CLRF    TRISB                   ;CONFIGURO TRISB COMO SALIDA PARA EL MOTOR
+                      00072                                 
+0013   30FF           00073                 MOVLW   B'11111111'
+0014   008C           00074                 MOVWF   TRISA                   ;CONFIGURO TRISA COMO ENTRADA PARA LOS BOTONES
+                      00075 
+0015   0022           00076                 BANKSEL LATB
+0016   018C           00077                 CLRF    LATA                    ;LIMPIO LOS REGISTROS A UTILIZAR PARA EVITAR LATCH
+0017   018D           00078                 CLRF    LATB
+                      00079 
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00080         
+                      00081 
+                      00082 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00083 ; C O N T R O L  D E  U N  M O T O R D E  C D
+                      00084 ; P R O G R A M A  P R I N C I P A L
+                      00085 
+0018                  00086 INICIO_D
+0018   0020           00087         BANKSEL PORTA
+0019   1C0C           00088         BTFSS   B_ARRANQUE
+001A   2819           00089         GOTO    $-1
+001B   0022           00090         BANKSEL LATB
+001C   2822           00091         GOTO    ARRANQUE_D
+                      00092 
+001D                  00093 INICIO_I
+001D   0020           00094         BANKSEL PORTA
+001E   1C0C           00095         BTFSS   B_ARRANQUE
+001F   281E           00096         GOTO    $-1
+0020   0022           00097         BANKSEL LATB
+0021   2835           00098         GOTO    ARRANQUE_I
+                      00099 
+                      00100 ;-------------------------------
+                      00101 ; RUTINA DE GIRO A LA DERCECHA
+                      00102 
+0022                  00103 ARRANQUE_D
+0022   140D           00104         BSF     SALIDA1
+0023   108D           00105         BCF     SALIDA2
+                      00106 
+0024                  00107 PREGUNTA_CAMBIO_I
+0024   0020           00108         BANKSEL PORTA
+0025   1D0C           00109         BTFSS   B_IZQUIERDA
+0026   282D           00110         GOTO    PARO_D
+0027   2828           00111         GOTO    GIRO_I
+                      00112 
+0028                  00113 GIRO_I
+0028   0022           00114         BANKSEL LATB
+0029   100D           00115         BCF     SALIDA1
+002A   108D           00116         BCF     SALIDA2
+002B   2048           00117         CALL    RETARDO_5MS
+002C   2835           00118         GOTO    ARRANQUE_I
+                      00119 
+                      00120 
+002D                  00121 PARO_D
+002D   0020           00122         BANKSEL PORTA
+002E   1C8C           00123         BTFSS   B_PARO
+002F   2822           00124         GOTO    ARRANQUE_D
+0030   0022           00125         BANKSEL LATB
+0031   100D           00126         BCF     SALIDA1
+0032   108D           00127         BCF     SALIDA2
+0033   2048           00128         CALL    RETARDO_5MS
+0034   2818           00129         GOTO    INICIO_D
+                      00130 
+                      00131 
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00132 
+                      00133 ;-------------------------------
+                      00134 ; RUTINA DE GIRO A LA IZQUIERDA
+                      00135 
+0035                  00136 ARRANQUE_I
+0035   100D           00137         BCF     SALIDA1
+0036   148D           00138         BSF     SALIDA2
+                      00139 
+0037                  00140 PREGUNTA_CAMBIO_D
+0037   0020           00141         BANKSEL PORTA
+0038   1D8C           00142         BTFSS   B_DERECHA
+0039   2840           00143         GOTO    PARO_I
+003A   283B           00144         GOTO    GIRO_D
+                      00145 
+003B                  00146 GIRO_D
+003B   0022           00147         BANKSEL LATB
+003C   100D           00148         BCF     SALIDA1
+003D   108D           00149         BCF     SALIDA2
+003E   2048           00150         CALL    RETARDO_5MS
+003F   2822           00151         GOTO    ARRANQUE_D
+                      00152 
+                      00153 
+0040                  00154 PARO_I
+0040   0020           00155         BANKSEL PORTA
+0041   1C8C           00156         BTFSS   B_PARO
+0042   2835           00157         GOTO    ARRANQUE_I
+0043   0022           00158         BANKSEL LATB
+0044   100D           00159         BCF     SALIDA1
+0045   108D           00160         BCF     SALIDA2
+0046   2048           00161         CALL    RETARDO_5MS
+0047   281D           00162         GOTO    INICIO_I
+                      00163 
+                      00164 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00165 ; S U B R U T I N A S
+                      00166 
+                      00167 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00168 ; S U B R U T I N A  D E   R E T A R D O
+                      00169 
+0048                  00170 RETARDO_5MS:
+0048   3005           00171                         MOVLW   .5      
+0049   00A2           00172                         MOVWF   NUM3
+                      00173 
+004A                  00174 OTRA1M:         
+004A   3008           00175                         MOVLW   .8
+004B   00A1           00176                         MOVWF   NUM2
+                      00177 
+004C                  00178 OTRA0M:         
+004C   302E           00179                         MOVLW   .46
+004D   00A0           00180                         MOVWF   NUM1
+                      00181 
+004E   0BA0           00182                         DECFSZ  NUM1,F
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+004F   284E           00183                         GOTO    $-1
+                      00184 
+0050   0BA1           00185                         DECFSZ  NUM2,F
+0051   284C           00186                         GOTO    OTRA0M
+                      00187 
+                      00188                         
+0052   0BA2           00189                         DECFSZ  NUM3,F
+0053   284A           00190                         GOTO    OTRA1M
+                      00191 
+0054   0008           00192                         RETURN
+                      00193 
+                      00194 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+Message[303]: Program word too large.  Truncated to core size. (CF84)
+Message[303]: Program word too large.  Truncated to core size. (DFFF)
+                      00195         END             ;D I R E C T R I Z   D E   F I N A L   D E   P R O G R A M A
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ABDEN                             00000000
+ABDOVF                            00000007
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ACKTIM                            00000007
+ADCON0                            0000009D
+ADCON1                            0000009E
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADFVR0                            00000000
+ADFVR1                            00000001
+ADGO                              00000001
+ADIE                              00000006
+ADIF                              00000006
+ADNREF                            00000002
+ADON                              00000000
+ADPREF0                           00000000
+ADPREF1                           00000001
+ADRES                             0000009B
+ADRESH                            0000009C
+ADRESL                            0000009B
+AHEN                              00000001
+ANSA0                             00000000
+ANSA1                             00000001
+ANSA2                             00000002
+ANSA3                             00000003
+ANSA4                             00000004
+ANSB1                             00000001
+ANSB2                             00000002
+ANSB3                             00000003
+ANSB4                             00000004
+ANSB5                             00000005
+ANSB6                             00000006
+ANSB7                             00000007
+ANSELA                            0000018C
+ANSELB                            0000018D
+APFCON0                           0000011D
+APFCON1                           0000011E
+ARRANQUE_D                        00000022
+ARRANQUE_I                        00000035
+BAUDCON                           0000019F
+BCL1IE                            00000003
+BCL1IF                            00000003
+BCL2IE                            00000001
+BCL2IF                            00000001
+BF                                00000000
+BOEN                              00000004
+BORCON                            00000116
+BORRDY                            00000000
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BRG16                             00000003
+BRGH                              00000002
+BSR                               00000008
+BSR0                              00000000
+BSR1                              00000001
+BSR2                              00000002
+BSR3                              00000003
+BSR4                              00000004
+BSR_SHAD                          00000FE6
+B_ARRANQUE                        PORTA,0
+B_DERECHA                         PORTA,3
+B_IZQUIERDA                       PORTA,2
+B_PARO                            PORTA,1
+C                                 00000000
+C1HYS                             00000001
+C1IE                              00000005
+C1IF                              00000005
+C1INTN                            00000006
+C1INTP                            00000007
+C1NCH0                            00000000
+C1NCH1                            00000001
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1PCH0                            00000004
+C1PCH1                            00000005
+C1POL                             00000004
+C1SP                              00000002
+C1SYNC                            00000000
+C1TSEL0                           00000000
+C1TSEL1                           00000001
+C2HYS                             00000001
+C2IE                              00000006
+C2IF                              00000006
+C2INTN                            00000006
+C2INTP                            00000007
+C2NCH0                            00000000
+C2NCH1                            00000001
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2PCH0                            00000004
+C2PCH1                            00000005
+C2POL                             00000004
+C2SP                              00000002
+C2SYNC                            00000000
+C2TSEL0                           00000002
+C2TSEL1                           00000003
+C3TSEL0                           00000004
+C3TSEL1                           00000005
+C4TSEL0                           00000006
+C4TSEL1                           00000007
+CCP1AS                            00000295
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCP1AS0                           00000004
+CCP1AS1                           00000005
+CCP1AS2                           00000006
+CCP1ASE                           00000007
+CCP1CON                           00000293
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1SEL                           00000000
+CCP2AS                            0000029C
+CCP2AS0                           00000004
+CCP2AS1                           00000005
+CCP2AS2                           00000006
+CCP2ASE                           00000007
+CCP2CON                           0000029A
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2SEL                           00000003
+CCP3CON                           00000313
+CCP3IE                            00000004
+CCP3IF                            00000004
+CCP3M0                            00000000
+CCP3M1                            00000001
+CCP3M2                            00000002
+CCP3M3                            00000003
+CCP4CON                           0000031A
+CCP4IE                            00000005
+CCP4IF                            00000005
+CCP4M0                            00000000
+CCP4M1                            00000001
+CCP4M2                            00000002
+CCP4M3                            00000003
+CCPR1H                            00000292
+CCPR1L                            00000291
+CCPR2H                            00000299
+CCPR2L                            00000298
+CCPR3H                            00000312
+CCPR3L                            00000311
+CCPR4H                            00000319
+CCPR4L                            00000318
+CCPTMRS                           0000029E
+CCPTMRS0                          0000029E
+CDAFVR0                           00000002
+CDAFVR1                           00000003
+CFGS                              00000006
+CHS0                              00000002
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CHS4                              00000006
+CKE                               00000006
+CKP                               00000004
+CLKRCON                           0000039A
+CLKRDC0                           00000003
+CLKRDC1                           00000004
+CLKRDIV0                          00000000
+CLKRDIV1                          00000001
+CLKRDIV2                          00000002
+CLKREN                            00000007
+CLKROE                            00000006
+CLKRSLR                           00000005
+CM1CON0                           00000111
+CM1CON1                           00000112
+CM2CON0                           00000113
+CM2CON1                           00000114
+CMOUT                             00000115
+CONFIGURACION                     00000005
+CPSCH0                            00000000
+CPSCH1                            00000001
+CPSCH2                            00000002
+CPSCH3                            00000003
+CPSCON0                           0000001E
+CPSCON1                           0000001F
+CPSON                             00000007
+CPSOUT                            00000001
+CPSRNG0                           00000002
+CPSRNG1                           00000003
+CREN                              00000004
+CSRC                              00000007
+C_SHAD                            00000000
+DACCON0                           00000118
+DACCON1                           00000119
+DACEN                             00000007
+DACLPS                            00000006
+DACNSS                            00000000
+DACOE                             00000005
+DACPSS0                           00000002
+DACPSS1                           00000003
+DACR0                             00000000
+DACR1                             00000001
+DACR2                             00000002
+DACR3                             00000003
+DACR4                             00000004
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DC2B0                             00000004
+DC2B1                             00000005
+DC3B0                             00000004
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+DC3B1                             00000005
+DC4B0                             00000004
+DC4B1                             00000005
+DC_SHAD                           00000001
+DHEN                              00000000
+D_NOT_A                           00000005
+ECCP1AS                           00000295
+ECCP2AS                           0000029C
+EEADR                             00000191
+EEADRH                            00000192
+EEADRL                            00000191
+EECON1                            00000195
+EECON2                            00000196
+EEDAT                             00000193
+EEDATH                            00000194
+EEDATL                            00000193
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FREE                              00000004
+FSR0                              00000004
+FSR0H                             00000005
+FSR0H_SHAD                        00000FE9
+FSR0L                             00000004
+FSR0L_SHAD                        00000FE8
+FSR1                              00000006
+FSR1H                             00000007
+FSR1H_SHAD                        00000FEB
+FSR1L                             00000006
+FSR1L_SHAD                        00000FEA
+FVRCON                            00000117
+FVREN                             00000007
+FVRRDY                            00000006
+GCEN                              00000007
+GIE                               00000007
+GIRO_D                            0000003B
+GIRO_I                            00000028
+GO                                00000001
+GO_NOT_DONE                       00000001
+HFIOFL                            00000003
+HFIOFR                            00000004
+HFIOFS                            00000000
+INDF0                             00000000
+INDF1                             00000001
+INICIO_D                          00000018
+INICIO_I                          0000001D
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOCBF                             00000396
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+IOCBF0                            00000000
+IOCBF1                            00000001
+IOCBF2                            00000002
+IOCBF3                            00000003
+IOCBF4                            00000004
+IOCBF5                            00000005
+IOCBF6                            00000006
+IOCBF7                            00000007
+IOCBN                             00000395
+IOCBN0                            00000000
+IOCBN1                            00000001
+IOCBN2                            00000002
+IOCBN3                            00000003
+IOCBN4                            00000004
+IOCBN5                            00000005
+IOCBN6                            00000006
+IOCBN7                            00000007
+IOCBP                             00000394
+IOCBP0                            00000000
+IOCBP1                            00000001
+IOCBP2                            00000002
+IOCBP3                            00000003
+IOCBP4                            00000004
+IOCBP5                            00000005
+IOCBP6                            00000006
+IOCBP7                            00000007
+IOCIE                             00000003
+IOCIF                             00000000
+IRCF0                             00000003
+IRCF1                             00000004
+IRCF2                             00000005
+IRCF3                             00000006
+LATA                              0000010C
+LATA0                             00000000
+LATA1                             00000001
+LATA2                             00000002
+LATA3                             00000003
+LATA4                             00000004
+LATA6                             00000006
+LATA7                             00000007
+LATB                              0000010D
+LATB0                             00000000
+LATB1                             00000001
+LATB2                             00000002
+LATB3                             00000003
+LATB4                             00000004
+LATB5                             00000005
+LATB6                             00000006
+LATB7                             00000007
+LFIOFR                            00000001
+LWLO                              00000005
+MC1OUT                            00000000
+MC2OUT                            00000001
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+MDBIT                             00000000
+MDCARH                            0000039F
+MDCARL                            0000039E
+MDCH0                             00000000
+MDCH1                             00000001
+MDCH2                             00000002
+MDCH3                             00000003
+MDCHODIS                          00000007
+MDCHPOL                           00000006
+MDCHSYNC                          00000005
+MDCL0                             00000000
+MDCL1                             00000001
+MDCL2                             00000002
+MDCL3                             00000003
+MDCLODIS                          00000007
+MDCLPOL                           00000006
+MDCLSYNC                          00000005
+MDCON                             0000039C
+MDEN                              00000007
+MDMS0                             00000000
+MDMS1                             00000001
+MDMS2                             00000002
+MDMS3                             00000003
+MDMSODIS                          00000007
+MDOE                              00000006
+MDOPOL                            00000004
+MDOUT                             00000003
+MDSLR                             00000005
+MDSRC                             0000039D
+MFIOFR                            00000002
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RI                            00000002
+NOT_RMCLR                         00000003
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_WPUEN                         00000007
+NUM1                              00000120
+NUM2                              00000121
+NUM3                              00000122
+OERR                              00000001
+OPTION_REG                        00000095
+OSCCON                            00000099
+OSCSTAT                           0000009A
+OSCTUNE                           00000098
+OSFIE                             00000007
+OSFIF                             00000007
+OSTS                              00000005
+OTRA0M                            0000004C
+OTRA1M                            0000004A
+P                                 00000004
+P1CSEL                            00000001
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+P1DC0                             00000000
+P1DC1                             00000001
+P1DC2                             00000002
+P1DC3                             00000003
+P1DC4                             00000004
+P1DC5                             00000005
+P1DC6                             00000006
+P1DSEL                            00000002
+P1M0                              00000006
+P1M1                              00000007
+P1RSEN                            00000007
+P2BSEL                            00000004
+P2DC0                             00000000
+P2DC1                             00000001
+P2DC2                             00000002
+P2DC3                             00000003
+P2DC4                             00000004
+P2DC5                             00000005
+P2DC6                             00000006
+P2M0                              00000006
+P2M1                              00000007
+P2RSEN                            00000007
+PARO_D                            0000002D
+PARO_I                            00000040
+PCIE                              00000006
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_SHAD                       00000FE7
+PCON                              00000096
+PEIE                              00000006
+PEN                               00000002
+PIE1                              00000091
+PIE2                              00000092
+PIE3                              00000093
+PIE4                              00000094
+PIR1                              00000011
+PIR2                              00000012
+PIR3                              00000013
+PIR4                              00000014
+PLLR                              00000006
+PORTA                             0000000C
+PORTB                             0000000D
+PR2                               0000001B
+PR4                               00000416
+PR6                               0000041D
+PREGUNTA_CAMBIO_D                 00000037
+PREGUNTA_CAMBIO_I                 00000024
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSS1AC0                           00000002
+PSS1AC1                           00000003
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PSS1BD0                           00000000
+PSS1BD1                           00000001
+PSS2AC0                           00000002
+PSS2AC1                           00000003
+PSS2BD0                           00000000
+PSS2BD1                           00000001
+PSTR1CON                          00000296
+PSTR2CON                          0000029D
+PWM1CON                           00000294
+PWM2CON                           0000029B
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RCEN                              00000003
+RCIDL                             00000006
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             00000199
+RCSTA                             0000019D
+RD                                00000000
+RETARDO_5MS                       00000048
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+RXDTSEL                           00000007
+R_NOT_W                           00000002
+S                                 00000003
+SALIDA1                           LATB,0
+SALIDA2                           LATB,1
+SBCDE                             00000002
+SBOREN                            00000007
+SCIE                              00000005
+SCKP                              00000004
+SCS0                              00000000
+SCS1                              00000001
+SDAHT                             00000003
+SDO1SEL                           00000006
+SEN                               00000000
+SENDB                             00000003
+SMP                               00000007
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SPBRG                             0000019B
+SPBRGH                            0000019C
+SPBRGL                            0000019B
+SPEN                              00000007
+SPLLEN                            00000007
+SRCLK0                            00000004
+SRCLK1                            00000005
+SRCLK2                            00000006
+SRCON0                            0000011A
+SRCON1                            0000011B
+SREN                              00000005
+SRLEN                             00000007
+SRNQEN                            00000002
+SRPR                              00000000
+SRPS                              00000001
+SRQEN                             00000003
+SRRC1E                            00000000
+SRRC2E                            00000001
+SRRCKE                            00000002
+SRRPE                             00000003
+SRSC1E                            00000004
+SRSC2E                            00000005
+SRSCKE                            00000006
+SRSPE                             00000007
+SS1SEL                            00000005
+SSP1ADD                           00000212
+SSP1BUF                           00000211
+SSP1CON1                          00000215
+SSP1CON2                          00000216
+SSP1CON3                          00000217
+SSP1IE                            00000003
+SSP1IF                            00000003
+SSP1MSK                           00000213
+SSP1STAT                          00000214
+SSP2ADD                           0000021A
+SSP2BUF                           00000219
+SSP2CON1                          0000021D
+SSP2CON2                          0000021E
+SSP2CON3                          0000021F
+SSP2IE                            00000000
+SSP2IF                            00000000
+SSP2MSK                           0000021B
+SSP2STAT                          0000021C
+SSPADD                            00000212
+SSPBUF                            00000211
+SSPCON                            00000215
+SSPCON1                           00000215
+SSPCON2                           00000216
+SSPCON3                           00000217
+SSPEN                             00000005
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSPM3                             00000003
+SSPMSK                            00000213
+SSPOV                             00000006
+SSPSTAT                           00000214
+STATUS                            00000003
+STATUS_SHAD                       00000FE4
+STKOVF                            00000007
+STKPTR                            00000FED
+STKUNF                            00000006
+STR1A                             00000000
+STR1B                             00000001
+STR1C                             00000002
+STR1D                             00000003
+STR1SYNC                          00000004
+STR2A                             00000000
+STR2B                             00000001
+STR2C                             00000002
+STR2D                             00000003
+STR2SYNC                          00000004
+SWDTEN                            00000000
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T0XCS                             00000000
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000018
+T1GCON                            00000019
+T1GGO                             00000003
+T1GPOL                            00000006
+T1GSPM                            00000004
+T1GSS0                            00000000
+T1GSS1                            00000001
+T1GTM                             00000005
+T1GVAL                            00000002
+T1OSCEN                           00000003
+T1OSCR                            00000007
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             0000001C
+T2OUTPS0                          00000003
+T2OUTPS1                          00000004
+T2OUTPS2                          00000005
+T2OUTPS3                          00000006
+T4CKPS0                           00000000
+T4CKPS1                           00000001
+T4CON                             00000417
+T4OUTPS0                          00000003
+T4OUTPS1                          00000004
+T4OUTPS2                          00000005
+T4OUTPS3                          00000006
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T6CKPS0                           00000000
+T6CKPS1                           00000001
+T6CON                             0000041E
+T6OUTPS0                          00000003
+T6OUTPS1                          00000004
+T6OUTPS2                          00000005
+T6OUTPS3                          00000006
+TMR0                              00000015
+TMR0CS                            00000005
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR0SE                            00000004
+TMR1                              00000016
+TMR1CS0                           00000006
+TMR1CS1                           00000007
+TMR1GE                            00000007
+TMR1GIE                           00000007
+TMR1GIF                           00000007
+TMR1H                             00000017
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             00000016
+TMR1ON                            00000000
+TMR2                              0000001A
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TMR4                              00000415
+TMR4IE                            00000001
+TMR4IF                            00000001
+TMR4ON                            00000002
+TMR6                              0000041C
+TMR6IE                            00000003
+TMR6IF                            00000003
+TMR6ON                            00000002
+TOSH                              00000FEF
+TOSL                              00000FEE
+TRISA                             0000008C
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             0000008D
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TSEN                              00000005
+TSRNG                             00000004
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+TUN4                              00000004
+TUN5                              00000005
+TX9                               00000006
+TX9D                              00000000
+TXCKSEL                           00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             0000019A
+TXSTA                             0000019E
+UA                                00000001
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000097
+WDTPS0                            00000001
+WDTPS1                            00000002
+WDTPS2                            00000003
+WDTPS3                            00000004
+WDTPS4                            00000005
+WPUA                              0000020C
+WPUA5                             00000005
+WPUB                              0000020D
+WPUB0                             00000000
+WPUB1                             00000001
+WPUB2                             00000002
+WPUB3                             00000003
+WPUB4                             00000004
+WPUB5                             00000005
+WPUB6                             00000006
+WPUB7                             00000007
+WR                                00000001
+WREG                              00000009
+WREG_SHAD                         00000FE5
+WREN                              00000002
+WRERR                             00000003
+WUE                               00000001
+Z                                 00000002
+Z_SHAD                            00000002
+_BOREN_NSLEEP                     0000FDFF
+_BOREN_OFF                        0000F9FF
+_BOREN_ON                         0000FFFF
+_BOREN_SBODEN                     0000FBFF
+_BORV_19                          0000FFFF
+_BORV_HI                          0000FBFF
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_BORV_LO                          0000FFFF
+_CLKOUTEN_OFF                     0000FFFF
+_CLKOUTEN_ON                      0000F7FF
+_CONFIG1                          00008007
+_CONFIG2                          00008008
+_CPD_OFF                          0000FFFF
+_CPD_ON                           0000FEFF
+_CP_OFF                           0000FFFF
+_CP_ON                            0000FF7F
+_DEVID1                           00008006
+_FCMEN_OFF                        0000DFFF
+_FCMEN_ON                         0000FFFF
+_FOSC_ECH                         0000FFFF
+_FOSC_ECL                         0000FFFD
+_FOSC_ECM                         0000FFFE
+_FOSC_EXTRC                       0000FFFB
+_FOSC_HS                          0000FFFA
+_FOSC_INTOSC                      0000FFFC
+_FOSC_LP                          0000FFF8
+_FOSC_XT                          0000FFF9
+_IDLOC0                           00008000
+_IDLOC1                           00008001
+_IDLOC2                           00008002
+_IDLOC3                           00008003
+_IESO_OFF                         0000EFFF
+_IESO_ON                          0000FFFF
+_LVP_OFF                          0000DFFF
+_LVP_ON                           0000FFFF
+_MCLRE_OFF                        0000FFBF
+_MCLRE_ON                         0000FFFF
+_PLLEN_OFF                        0000FEFF
+_PLLEN_ON                         0000FFFF
+_PWRTE_OFF                        0000FFFF
+_PWRTE_ON                         0000FFDF
+_STVREN_OFF                       0000FDFF
+_STVREN_ON                        0000FFFF
+_WDTE_NSLEEP                      0000FFF7
+_WDTE_OFF                         0000FFE7
+_WDTE_ON                          0000FFFF
+_WDTE_SWDTEN                      0000FFEF
+_WRT_ALL                          0000FFFC
+_WRT_BOOT                         0000FFFE
+_WRT_HALF                         0000FFFD
+_WRT_OFF                          0000FFFF
+__16F1827                         00000001
+__DEBUG                           1
+MPASM  5.48            MOTORCD_ON-OFF&R-L.ASM   5-31-2013  15:29:09         PAGE 20
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXX----------- ---------------- ----------------
+8000 : -------XX------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    84
+Program Memory Words Free:  4012
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     4 reported,    27 suppressed
+
+

@@ -1,0 +1,1419 @@
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00002 #INCLUDE <P16F1827.INC>                                         ;DECLARO LA LIBRERIA DEL MICROCONTROLADO
+                            R CORRESPONDIENTE
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F1827 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2012 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      01305         LIST
+                      00003 
+                      00004 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00005 ;P A L A B R A   D E   C O N F I G U R A C I O N
+Message[303]: Program word too large.  Truncated to core size. (CF84)
+8007   0F84           00006         __config        _CONFIG1, _FOSC_INTOSC & _WDTE_OFF & _PWRTE_ON & _MCLRE_OFF & _CP_OFF & _CPD_OFF
+                             & _BOREN_ON & _CLKOUTEN_OFF & _IESO_OFF & _FCMEN_OFF
+Message[303]: Program word too large.  Truncated to core size. (DFFF)
+8008   1FFF           00007         __config        _CONFIG2, _WRT_OFF & _PLLEN_ON & _STVREN_ON  & _LVP_OFF 
+                      00008 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00009 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+Warning[205]: Found directive in column 1. (ERRORLEVEL)
+                      00010 ERRORLEVEL  -302                                        ; ELIMINO DE LA VENTANA DE COMPILACION EL ERROR 
+                            302
+                      00011 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00012 ;D E C L A R A C I O N  D E  R P G ' S
+Warning[205]: Found directive in column 1. (CBLOCK)
+                      00013 CBLOCK 0X70                                 ; DECLARO MIS REGISTROS DE PROPOSITO GENERAL COMO ESPEJEADOS
+  00000070            00014 NUM1,NUM2,NUM3
+  00000073            00015 UNIDADES,DECENAS,CENTENAS,MILLARES
+  00000077            00016 DATOL,DATOH, APUNTADOR
+Warning[205]: Found directive in column 1. (ENDC)
+                      00017 ENDC
+                      00018 
+                      00019 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00020 ; V E C T O R  D E  I N I C I O 
+0000                  00021                 ORG     0X00                ;DECLARO EL VECTOR DE INICIO O RESET
+0000   2835           00022                         GOTO INICIO                                             
+                      00023 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00024 ; V E C T O R  D E  I N T E R R U P C I O N
+0004                  00025         ORG     0X04                                            
+0004   0009           00026                         RETFIE
+                      00027 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00028 ;TABLAS DE DATOS PARA LA SUBRUTINA BINBCD
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0005                  00029 TABLAU                                    ;TABLA DE DATOS PARA UNIDADES
+0005   0879           00030                         MOVF APUNTADOR,W
+0006   000B           00031                         BRW
+0007   3402           00032                         RETLW   D'2'
+0008   3406           00033                         RETLW   D'6'
+0009   3408           00034                         RETLW   D'8'
+000A   3404           00035                         RETLW   D'4'
+000B   3402           00036                         RETLW   D'2'
+000C   3406           00037                         RETLW   D'6'
+000D   3408           00038                         RETLW   D'8'
+000E   3404           00039                         RETLW   D'4'
+000F   3402           00040                         RETLW   D'2'
+0010   3401           00041                         RETLW   D'1'
+                      00042 
+0011                  00043 TABLAD                                                                     ;TABLA DE DATOS PARA DECENAS
+0011   0879           00044                         MOVF APUNTADOR,W
+0012   000B           00045                         BRW
+0013   3401           00046                         RETLW   D'1'
+0014   3405           00047                         RETLW   D'5'
+0015   3402           00048                         RETLW   D'2'
+0016   3406           00049                         RETLW   D'6'
+0017   3403           00050                         RETLW   D'3'
+0018   3401           00051                         RETLW   D'1'
+0019   3400           00052                         RETLW   D'0'
+001A   3400           00053                         RETLW   D'0'
+001B   3400           00054                         RETLW   D'0'
+001C   3400           00055                         RETLW   D'0'
+                      00056 
+001D                  00057 TABLAC                                    ;TABLA DE DATOS PARA CENTENAS
+001D   0879           00058                         MOVF APUNTADOR,W
+001E   000B           00059                         BRW
+001F   3405           00060                         RETLW   D'5'
+0020   3402           00061                         RETLW   D'2'
+0021   3401           00062                         RETLW   D'1'
+0022   3400           00063                         RETLW   D'0'
+0023   3400           00064                         RETLW   D'0'
+0024   3400           00065                         RETLW   D'0'
+0025   3400           00066                         RETLW   D'0'
+0026   3400           00067                         RETLW   D'0'
+0027   3400           00068                         RETLW   D'0'
+0028   3400           00069                         RETLW   D'0'
+0029                  00070 TABLAM                                  ;TABLA DE DATOS PARA MILLARES
+0029   0879           00071                         MOVF APUNTADOR,W
+002A   000B           00072                         BRW
+002B   3401           00073                         RETLW   D'1'
+002C   3400           00074                         RETLW   D'0'
+002D   3400           00075                         RETLW   D'0'
+002E   3400           00076                         RETLW   D'0'
+002F   3400           00077                         RETLW   D'0'
+0030   3400           00078                         RETLW   D'0'
+0031   3400           00079                         RETLW   D'0'
+0032   3400           00080                         RETLW   D'0'
+0033   3400           00081                         RETLW   D'0'
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0034   3400           00082                         RETLW   D'0'
+                      00083 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-           
+                      00084 ; C O N F I G U R A C I O N  P R I N C I P A L
+0035                  00085 INICIO:                 
+0035   0021           00086                         BANKSEL OSCCON          ; ME CAMBIO DE BANCO A DONDE SE ENCUENTRA EL REGISTRO OS
+                            CCON
+0036   30F0           00087                 MOVLW           B'11110000'     ; CONFIGURO EL REGISTRO OSCCON PARA UN OSCILADOR INTERNO
+                             
+0037   0099           00088                 MOVWF           OSCCON      ; DE 8 MHZ CON UN PLL X 4 = 32 MHZ (8 MIPS)
+                      00089 
+0038   0022           00090                         BANKSEL APFCON0
+0039   307F           00091                 MOVLW           B'01111111'             ;CONFIGURO LOS REGISTROS PARA LOS PINES INTERCAM
+                            BIABLES 
+003A   009D           00092                 MOVWF           APFCON0
+                      00093                         
+003B   0022           00094                         BANKSEL APFCON1         ;CONFIGURO LOS REGISTROS PARA LOS PINES INTERCAMBIABLES 
+003C   3000           00095                 MOVLW           B'00000000'
+003D   009E           00096                 MOVWF           APFCON1
+                      00097 
+003E   0023           00098                         BANKSEL ANSELA     
+003F   301F           00099                 MOVLW           B'00011111'    ; HABILITO LOS PINES ANALOGICOS DEL PUERTO A (AN0 - AN4)
+0040   008C           00100                 MOVWF           ANSELA          
+                      00101                 
+0041   018D           00102                         CLRF ANSELB            ; HABILITO LOS PINES ANALOGICOS DEL PUERTO A (AN5 - AN11)
+0042   30FE           00103                 MOVLW           B'11111110'
+0043   008D           00104                 MOVWF           ANSELB                  
+                      00105 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-                   
+                      00106 
+0044   0021           00107                         BANKSEL TRISA     
+0045   301F           00108                 MOVLW           B'00011111'    ; HABILITO LOS PINES  DEL PUERTO A COMO ENTRADAS (RA0 - R
+                            A4)
+0046   008C           00109                 MOVWF           TRISA           
+                      00110                 
+0047   0021           00111                         BANKSEL TRISB           ; HABILITO LOS PINES  DEL PUERTO A COMO ENTRADAS (RB1 - 
+                            RB7)
+0048   30FE           00112                 MOVLW           B'11111110'
+0049   008D           00113                 MOVWF           TRISB
+                      00114                                         
+                      00115 
+004A   01F8           00116         CLRF DATOH                  ; LIMPIO EL REGISTRO DE RESPALDO DE LA PARTE ALTA DEL RESULTADO DE L
+                            A CONVERSION
+004B   01F7           00117                 CLRF DATOL                                      ; LIMPIO EL REGISTRO DE RESPALDO DE LA P
+                            ARTE BAJA DEL RESULTADO DE LA CONVERSION
+                      00118 
+004C   20DF           00119                 CALL INIT_UART              ; LLAMO A LA SUBRUTINA DE INICIALIZACION DEL MODULO UART
+                      00120 
+004D   20D8           00121                 CALL INIT_ADC               ; LLAMO A LA SUBRUTINA DE INICIALIZACION DEL MODULO ADC
+                      00122 
+                      00123         
+                      00124 
+                      00125                 
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+004E                  00126 START   
+                      00127                 
+004E   2052           00128                 CALL ADQUI
+                      00129 
+004F   205E           00130                 CALL BINBCD
+                      00131         
+0050   20B2           00132                 CALL DESPLIEGA
+                      00133 
+0051   284E           00134                 GOTO START
+                      00135 
+                      00136                 
+0052                  00137 ADQUI   
+                      00138                                  
+0052   2101           00139                         CALL            RETARDO_100MS   ;RETARDO DE ADQUISICION CALL                    
+                            SAMPLETIME      ;RETARDO DE ADQUISICION
+0053   0021           00140                                 BANKSEL         ADCON0
+0054   149D           00141                         BSF             ADCON0,ADGO     ;INICIA LA CONVERSION
+0055   189D           00142                         BTFSC           ADCON0,ADGO     ;YA SE TERMINO LA CONVERSION?
+0056   2855           00143                         GOTO            $-1             ;NO? PREGUNTA DE NUEVO
+0057   0021           00144                                 BANKSEL         ADRESH          ;SI, CONTINUA
+0058   081C           00145                         MOVF            ADRESH,W        ;LEE LA PARTE MAS SIGNIFICATIVA
+0059   00F8           00146                         MOVWF           DATOH           ;GUARDALO EN DATOH
+005A   0021           00147                                 BANKSEL         ADRESL          ;CAMBIO A BANCO1
+005B   081B           00148                         MOVF            ADRESL,W        ;LEE LA PARTE MENOS SIGNIFICATIVA
+005C   00F7           00149                         MOVWF           DATOL           ;GUARDALO EN DATOL
+                      00150 
+                      00151                 ;       BCF STATUS,C
+                      00152                 ;       RRF DATOH,F
+                      00153                 ;       RRF DATOL,F
+                      00154         
+                      00155         
+005D   0008           00156                         RETURN
+                      00157 
+                      00158                 
+                      00159 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00160 ; S U B R U T I N A   D E   C O N V E R S I O N   D E  B I N A R I O   A  B C D
+                      00161 
+005E                  00162 BINBCD 
+                      00163 
+005E   01F6           00164         CLRF MILLARES
+005F   01F3           00165         CLRF UNIDADES
+0060   01F4           00166         CLRF DECENAS
+0061   01F5           00167         CLRF CENTENAS
+0062   01F9           00168         CLRF APUNTADOR
+0063                  00169 OTRA 
+0063   1FF8           00170         BTFSS DATOH,7
+0064   28A2           00171         GOTO ROTA
+0065   2005           00172         CALL TABLAU
+0066   07F3           00173         ADDWF UNIDADES,F
+0067   2011           00174         CALL TABLAD
+0068   07F4           00175         ADDWF DECENAS,F
+0069   201D           00176         CALL TABLAC
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+006A   07F5           00177         ADDWF CENTENAS,F
+                      00178 
+006B   0873           00179         MOVF UNIDADES,W
+006C   3C0A           00180         SUBLW D'10'
+006D   1C03           00181         BTFSS STATUS,C
+006E   2870           00182         GOTO MAYOR
+006F   2874           00183         GOTO MENOR
+0070                  00184 MAYOR 
+0070   0AF4           00185         INCF DECENAS,F
+0071   300A           00186         MOVLW D'10'
+0072   02F3           00187         SUBWF UNIDADES,F
+0073   2879           00188         GOTO DECE
+0074                  00189 MENOR
+0074   300A           00190          MOVLW D'10'
+0075   0273           00191         SUBWF UNIDADES,W
+0076   1D03           00192         BTFSS STATUS,Z
+0077   2879           00193         GOTO DECE
+0078   2870           00194         GOTO MAYOR
+                      00195 
+0079                  00196 DECE 
+0079   0874           00197         MOVF DECENAS,W
+007A   3C0A           00198         SUBLW D'10'
+007B   1C03           00199         BTFSS STATUS,C
+007C   287E           00200         GOTO MAYORD
+007D   2882           00201         GOTO MENORD
+007E                  00202 MAYORD
+007E   0AF5           00203          INCF CENTENAS,F
+007F   300A           00204         MOVLW D'10'
+0080   02F4           00205         SUBWF DECENAS,F
+0081   2887           00206         GOTO CENTE
+0082                  00207 MENORD
+0082   300A           00208          MOVLW D'10'
+0083   0274           00209         SUBWF DECENAS,W
+0084   1D03           00210         BTFSS STATUS,Z
+0085   2887           00211         GOTO CENTE
+0086   287E           00212         GOTO MAYORD
+                      00213 
+0087                  00214 CENTE
+0087   0875           00215          MOVF CENTENAS,W
+0088   3C0A           00216         SUBLW D'10'
+0089   1C03           00217         BTFSS STATUS,C
+008A   288C           00218         GOTO MAYORC
+008B   2890           00219         GOTO MENORC
+                      00220 
+008C                  00221 MAYORC
+008C   0AF6           00222          INCF MILLARES,F
+008D   300A           00223         MOVLW D'10'
+008E   02F5           00224         SUBWF CENTENAS,F
+008F   2895           00225         GOTO MILLA
+0090                  00226 MENORC
+0090   300A           00227          MOVLW D'10'
+0091   0275           00228         SUBWF CENTENAS,W
+0092   1D03           00229         BTFSS STATUS,Z
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0093   2895           00230         GOTO MILLA
+0094   288C           00231         GOTO MAYORC
+                      00232 
+0095                  00233 MILLA
+0095   0876           00234          MOVF MILLARES,W
+0096   3C0A           00235         SUBLW D'10'
+0097   1C03           00236         BTFSS STATUS,C
+0098   289A           00237         GOTO MAYORM
+0099   289D           00238         GOTO MENORM
+009A                  00239 MAYORM 
+009A   300A           00240         MOVLW D'10'
+009B   02F6           00241         SUBWF MILLARES,F
+009C   28A2           00242         GOTO ROTA
+009D                  00243 MENORM
+009D   300A           00244          MOVLW D'10'
+009E   0276           00245         SUBWF MILLARES,W
+009F   1D03           00246         BTFSS STATUS,Z
+00A0   28A2           00247         GOTO ROTA
+00A1   289A           00248         GOTO MAYORM
+                      00249 
+00A2                  00250 ROTA 
+00A2   0DF7           00251         RLF DATOL,F
+00A3   0DF8           00252         RLF DATOH,F
+00A4   0AF9           00253         INCF APUNTADOR,F
+00A5   0879           00254         MOVF APUNTADOR,W
+00A6   3C0A           00255         SUBLW D'10'
+00A7   1D03           00256         BTFSS STATUS,Z
+00A8   2863           00257         GOTO OTRA
+                      00258 
+00A9                  00259 BCD_ASCII
+00A9   3030           00260         MOVLW 0X30
+00AA   07F3           00261         ADDWF UNIDADES,F
+                      00262 
+00AB   3030           00263         MOVLW 0X30
+00AC   07F4           00264         ADDWF DECENAS,F
+                      00265 
+00AD   3030           00266         MOVLW 0X30
+00AE   07F5           00267         ADDWF CENTENAS,F
+                      00268 
+00AF   3030           00269         MOVLW 0X30
+00B0   07F6           00270         ADDWF MILLARES,F
+                      00271 
+00B1   0008           00272         RETURN
+                      00273 
+                      00274 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00275 ; S U B R U T I N A S  D E  V I S U A L I Z A C I O N  D E  D A T O S  S E R I A L
+00B2                  00276 DESPLIEGA
+                      00277 
+00B2   0876           00278                 MOVF MILLARES,W
+00B3   0023           00279                 BANKSEL TXREG
+00B4   009A           00280                 MOVWF TXREG
+00B5   210E           00281                 CALL RETARDO_5MS
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00282 
+00B6   0875           00283                 MOVF CENTENAS,W
+00B7   0023           00284                 BANKSEL TXREG
+00B8   009A           00285                 MOVWF TXREG
+00B9   210E           00286                 CALL RETARDO_5MS
+                      00287 
+00BA   0874           00288                 MOVF DECENAS,W
+00BB   0023           00289                 BANKSEL TXREG
+00BC   009A           00290                 MOVWF TXREG
+00BD   210E           00291                 CALL RETARDO_5MS
+                      00292 
+00BE   302E           00293                 MOVLW "."
+00BF   0023           00294                 BANKSEL TXREG
+00C0   009A           00295                 MOVWF TXREG
+00C1   210E           00296                 CALL RETARDO_5MS
+                      00297 
+                      00298 
+00C2   0873           00299                 MOVF UNIDADES,W
+00C3   0023           00300                 BANKSEL TXREG
+00C4   009A           00301                 MOVWF TXREG
+00C5   210E           00302                 CALL RETARDO_5MS
+                      00303 
+00C6   3020           00304                 MOVLW " "
+00C7   0023           00305                 BANKSEL TXREG
+00C8   009A           00306                 MOVWF TXREG
+00C9   210E           00307                 CALL RETARDO_5MS
+                      00308 
+00CA   302A           00309                 MOVLW "*"
+00CB   0023           00310                 BANKSEL TXREG
+00CC   009A           00311                 MOVWF TXREG
+00CD   210E           00312                 CALL RETARDO_5MS
+                      00313 
+00CE   3043           00314            MOVLW "C"
+00CF   0023           00315                 BANKSEL TXREG
+00D0   009A           00316                 MOVWF TXREG
+00D1   210E           00317                 CALL RETARDO_5MS
+00D2   300D           00318                 MOVLW 0X0D
+00D3   0023           00319                 BANKSEL TXREG
+00D4   009A           00320                 MOVWF TXREG
+00D5   210E           00321                 CALL RETARDO_5MS
+                      00322         
+00D6   20F3           00323                 CALL RETARDO_1S
+                      00324         
+00D7   0008           00325                 RETURN
+                      00326 
+                      00327 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00328 ; S U B R U T I N A   D E   I N I C I A L I Z A C I O N   D E L   A D C
+00D8                  00329 INIT_ADC:
+                      00330                                 
+00D8   0021           00331                                 BANKSEL ADCON0           ; CONFIGURO EL CANAL ANALOGICO - CHS ( BITS 2:6
+                             )
+00D9   3001           00332                 MOVLW           B'00000001'          ; CONFIGURO EL BIT DE ESTADO DE LA CONVERSIÓN - GO/
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                            DONE ( BIT 1)
+00DA   009D           00333                 MOVWF           ADCON0                           ; HABILITO EL BIT DEL MODULO ADC - ADON
+                             ( BIT 0)
+                      00334 
+00DB   0021           00335                                 BANKSEL ADCON1           ; CONFIGURO EL VREF POSITIVO (VDD) - ADPREF ( B
+                            ITS 0:1 )
+00DC   3070           00336                 MOVLW           B'01110000'          ; CONFIGURO EL VREF NEGATIVO (VSS) - ADNREF ( BIT 2
+                             )
+00DD   009E           00337                 MOVWF           ADCON1                           ; SELECCIONO LA FUENTE DE RELOJ (FRC) -
+                             ADCS ( BITS 4:6 )
+                      00338                                                                                  ; SELECCIONO EL RESULTA
+                            DO JUSTIFICADO A LA IZQUIERDA - ADFM ( BIT 7 )
+00DE   0008           00339                 RETURN
+                      00340 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00341 ; S U B R U T I N A   D E   I N I C I A L I Z A C I O N   D E  L A  U A R T
+00DF                  00342 INIT_UART               
+                      00343                                 
+00DF   0023           00344                                         BANKSEL BAUDCON
+00E0   3000           00345                                 MOVLW   B'00000000'
+00E1   009F           00346                                 MOVWF   BAUDCON
+                      00347                                 
+00E2   0023           00348                                         BANKSEL SPBRGL
+00E3   30CF           00349                                 MOVLW D'207'            ;9600bdps
+00E4   009B           00350                                 MOVWF SPBRGL
+                      00351 
+00E5   3000           00352                                 MOVLW D'00'             ;9600bdps
+00E6   009C           00353                                 MOVWF SPBRGH
+                      00354                         
+                      00355                                 
+00E7   0023           00356                                         BANKSEL RCSTA
+00E8   3090           00357                                 MOVLW B'10010000'
+00E9   009D           00358                                 MOVWF RCSTA
+                      00359                                 
+00EA   0021           00360                                         BANKSEL PIE1
+00EB   1691           00361                                 BSF PIE1,RCIE
+                      00362 
+00EC   0020           00363                                         BANKSEL INTCON
+00ED   30C0           00364                                 MOVLW B'11000000'
+00EE   008B           00365                                 MOVWF INTCON
+                      00366 
+00EF   0023           00367                                         BANKSEL TXSTA
+00F0   3024           00368                                 MOVLW B'00100100'
+00F1   009E           00369                                 MOVWF TXSTA
+                      00370                                 
+                      00371                                 
+00F2   0008           00372                                 RETURN
+                      00373 
+                      00374 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00375 ; S U B R U T I N A S  D E  R E T A R D O S
+00F3                  00376 RETARDO_1S
+00F3   0020           00377                         BANKSEL PORTB
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00F4   300A           00378                         MOVLW   .10
+00F5   00F2           00379                         MOVWF   NUM3
+                      00380 
+00F6   30C8           00381 OTRA1           MOVLW   .200
+00F7   00F1           00382                         MOVWF   NUM2
+                      00383 
+00F8   30A6           00384 OTRAR           MOVLW   .166
+00F9   00F0           00385                         MOVWF   NUM1
+00FA   0BF0           00386                         DECFSZ  NUM1,F
+00FB   28FA           00387                         GOTO    $-1
+Message[305]: Using default destination of 1 (file).
+00FC   0BF1           00388                         DECFSZ  NUM2
+00FD   28F8           00389                         GOTO    OTRAR
+                      00390 
+Message[305]: Using default destination of 1 (file).
+00FE   0BF2           00391                         DECFSZ  NUM3
+00FF   28F6           00392                         GOTO    OTRA1
+0100   0008           00393                         RETURN
+                      00394 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-            
+0101                  00395 RETARDO_100MS
+0101   3001           00396                                 MOVLW   D'1'
+0102   00F2           00397                                 MOVWF   NUM3
+                      00398 
+0103   3004           00399 OTRO2                   MOVLW   D'4'
+0104   00F1           00400                                 MOVWF   NUM2
+                      00401 
+                      00402 
+0105   3028           00403 OTRO1                   MOVLW   D'40' ;16
+0106   00F0           00404                                 MOVWF   NUM1
+0107   0BF0           00405 OTRO                    DECFSZ  NUM1,F
+0108   2907           00406                                 GOTO    OTRO
+                      00407 
+0109   0BF1           00408                                 DECFSZ  NUM2,F
+010A   2905           00409                                 GOTO    OTRO1
+                      00410 
+010B   0BF2           00411                                 DECFSZ  NUM3,F
+010C   2903           00412                                 GOTO    OTRO2
+010D   0008           00413                                 RETURN
+                      00414 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-            
+010E                  00415 RETARDO_5MS 
+010E   0020           00416                         BANKSEL PORTB
+010F   3001           00417                         MOVLW   D'1'
+0110   00F2           00418                         MOVWF   NUM3
+                      00419 
+0111   3032           00420 OTRA25          MOVLW   D'50'
+0112   00F1           00421                         MOVWF   NUM2
+                      00422 
+                      00423 
+0113   30A6           00424 OTRA15          MOVLW   D'166'
+0114   00F0           00425                         MOVWF   NUM1
+0115   0BF0           00426 OTRA5           DECFSZ  NUM1,F
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0116   2915           00427                         GOTO    OTRA5
+                      00428 
+0117   0BF1           00429                         DECFSZ  NUM2,F
+0118   2913           00430                         GOTO    OTRA15
+                      00431 
+0119   0BF2           00432                         DECFSZ  NUM3,F
+011A   2911           00433                         GOTO    OTRA25
+011B   0008           00434                         RETURN
+                      00435 
+                      00436 
+Message[303]: Program word too large.  Truncated to core size. (CF84)
+Message[303]: Program word too large.  Truncated to core size. (DFFF)
+                      00437     END
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ABDEN                             00000000
+ABDOVF                            00000007
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ACKTIM                            00000007
+ADCON0                            0000009D
+ADCON1                            0000009E
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADFVR0                            00000000
+ADFVR1                            00000001
+ADGO                              00000001
+ADIE                              00000006
+ADIF                              00000006
+ADNREF                            00000002
+ADON                              00000000
+ADPREF0                           00000000
+ADPREF1                           00000001
+ADQUI                             00000052
+ADRES                             0000009B
+ADRESH                            0000009C
+ADRESL                            0000009B
+AHEN                              00000001
+ANSA0                             00000000
+ANSA1                             00000001
+ANSA2                             00000002
+ANSA3                             00000003
+ANSA4                             00000004
+ANSB1                             00000001
+ANSB2                             00000002
+ANSB3                             00000003
+ANSB4                             00000004
+ANSB5                             00000005
+ANSB6                             00000006
+ANSB7                             00000007
+ANSELA                            0000018C
+ANSELB                            0000018D
+APFCON0                           0000011D
+APFCON1                           0000011E
+APUNTADOR                         00000079
+BAUDCON                           0000019F
+BCD_ASCII                         000000A9
+BCL1IE                            00000003
+BCL1IF                            00000003
+BCL2IE                            00000001
+BCL2IF                            00000001
+BF                                00000000
+BINBCD                            0000005E
+BOEN                              00000004
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BORCON                            00000116
+BORRDY                            00000000
+BRG16                             00000003
+BRGH                              00000002
+BSR                               00000008
+BSR0                              00000000
+BSR1                              00000001
+BSR2                              00000002
+BSR3                              00000003
+BSR4                              00000004
+BSR_SHAD                          00000FE6
+C                                 00000000
+C1HYS                             00000001
+C1IE                              00000005
+C1IF                              00000005
+C1INTN                            00000006
+C1INTP                            00000007
+C1NCH0                            00000000
+C1NCH1                            00000001
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1PCH0                            00000004
+C1PCH1                            00000005
+C1POL                             00000004
+C1SP                              00000002
+C1SYNC                            00000000
+C1TSEL0                           00000000
+C1TSEL1                           00000001
+C2HYS                             00000001
+C2IE                              00000006
+C2IF                              00000006
+C2INTN                            00000006
+C2INTP                            00000007
+C2NCH0                            00000000
+C2NCH1                            00000001
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2PCH0                            00000004
+C2PCH1                            00000005
+C2POL                             00000004
+C2SP                              00000002
+C2SYNC                            00000000
+C2TSEL0                           00000002
+C2TSEL1                           00000003
+C3TSEL0                           00000004
+C3TSEL1                           00000005
+C4TSEL0                           00000006
+C4TSEL1                           00000007
+CCP1AS                            00000295
+CCP1AS0                           00000004
+CCP1AS1                           00000005
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCP1AS2                           00000006
+CCP1ASE                           00000007
+CCP1CON                           00000293
+CCP1IE                            00000002
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1SEL                           00000000
+CCP2AS                            0000029C
+CCP2AS0                           00000004
+CCP2AS1                           00000005
+CCP2AS2                           00000006
+CCP2ASE                           00000007
+CCP2CON                           0000029A
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2SEL                           00000003
+CCP3CON                           00000313
+CCP3IE                            00000004
+CCP3IF                            00000004
+CCP3M0                            00000000
+CCP3M1                            00000001
+CCP3M2                            00000002
+CCP3M3                            00000003
+CCP4CON                           0000031A
+CCP4IE                            00000005
+CCP4IF                            00000005
+CCP4M0                            00000000
+CCP4M1                            00000001
+CCP4M2                            00000002
+CCP4M3                            00000003
+CCPR1H                            00000292
+CCPR1L                            00000291
+CCPR2H                            00000299
+CCPR2L                            00000298
+CCPR3H                            00000312
+CCPR3L                            00000311
+CCPR4H                            00000319
+CCPR4L                            00000318
+CCPTMRS                           0000029E
+CCPTMRS0                          0000029E
+CDAFVR0                           00000002
+CDAFVR1                           00000003
+CENTE                             00000087
+CENTENAS                          00000075
+CFGS                              00000006
+CHS0                              00000002
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CHS4                              00000006
+CKE                               00000006
+CKP                               00000004
+CLKRCON                           0000039A
+CLKRDC0                           00000003
+CLKRDC1                           00000004
+CLKRDIV0                          00000000
+CLKRDIV1                          00000001
+CLKRDIV2                          00000002
+CLKREN                            00000007
+CLKROE                            00000006
+CLKRSLR                           00000005
+CM1CON0                           00000111
+CM1CON1                           00000112
+CM2CON0                           00000113
+CM2CON1                           00000114
+CMOUT                             00000115
+CPSCH0                            00000000
+CPSCH1                            00000001
+CPSCH2                            00000002
+CPSCH3                            00000003
+CPSCON0                           0000001E
+CPSCON1                           0000001F
+CPSON                             00000007
+CPSOUT                            00000001
+CPSRNG0                           00000002
+CPSRNG1                           00000003
+CREN                              00000004
+CSRC                              00000007
+C_SHAD                            00000000
+DACCON0                           00000118
+DACCON1                           00000119
+DACEN                             00000007
+DACLPS                            00000006
+DACNSS                            00000000
+DACOE                             00000005
+DACPSS0                           00000002
+DACPSS1                           00000003
+DACR0                             00000000
+DACR1                             00000001
+DACR2                             00000002
+DACR3                             00000003
+DACR4                             00000004
+DATOH                             00000078
+DATOL                             00000077
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DC2B0                             00000004
+DC2B1                             00000005
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+DC3B0                             00000004
+DC3B1                             00000005
+DC4B0                             00000004
+DC4B1                             00000005
+DC_SHAD                           00000001
+DECE                              00000079
+DECENAS                           00000074
+DESPLIEGA                         000000B2
+DHEN                              00000000
+D_NOT_A                           00000005
+ECCP1AS                           00000295
+ECCP2AS                           0000029C
+EEADR                             00000191
+EEADRH                            00000192
+EEADRL                            00000191
+EECON1                            00000195
+EECON2                            00000196
+EEDAT                             00000193
+EEDATH                            00000194
+EEDATL                            00000193
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+F                                 00000001
+FERR                              00000002
+FREE                              00000004
+FSR0                              00000004
+FSR0H                             00000005
+FSR0H_SHAD                        00000FE9
+FSR0L                             00000004
+FSR0L_SHAD                        00000FE8
+FSR1                              00000006
+FSR1H                             00000007
+FSR1H_SHAD                        00000FEB
+FSR1L                             00000006
+FSR1L_SHAD                        00000FEA
+FVRCON                            00000117
+FVREN                             00000007
+FVRRDY                            00000006
+GCEN                              00000007
+GIE                               00000007
+GO                                00000001
+GO_NOT_DONE                       00000001
+HFIOFL                            00000003
+HFIOFR                            00000004
+HFIOFS                            00000000
+INDF0                             00000000
+INDF1                             00000001
+INICIO                            00000035
+INIT_ADC                          000000D8
+INIT_UART                         000000DF
+INTCON                            0000000B
+INTE                              00000004
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+INTEDG                            00000006
+INTF                              00000001
+IOCBF                             00000396
+IOCBF0                            00000000
+IOCBF1                            00000001
+IOCBF2                            00000002
+IOCBF3                            00000003
+IOCBF4                            00000004
+IOCBF5                            00000005
+IOCBF6                            00000006
+IOCBF7                            00000007
+IOCBN                             00000395
+IOCBN0                            00000000
+IOCBN1                            00000001
+IOCBN2                            00000002
+IOCBN3                            00000003
+IOCBN4                            00000004
+IOCBN5                            00000005
+IOCBN6                            00000006
+IOCBN7                            00000007
+IOCBP                             00000394
+IOCBP0                            00000000
+IOCBP1                            00000001
+IOCBP2                            00000002
+IOCBP3                            00000003
+IOCBP4                            00000004
+IOCBP5                            00000005
+IOCBP6                            00000006
+IOCBP7                            00000007
+IOCIE                             00000003
+IOCIF                             00000000
+IRCF0                             00000003
+IRCF1                             00000004
+IRCF2                             00000005
+IRCF3                             00000006
+LATA                              0000010C
+LATA0                             00000000
+LATA1                             00000001
+LATA2                             00000002
+LATA3                             00000003
+LATA4                             00000004
+LATA6                             00000006
+LATA7                             00000007
+LATB                              0000010D
+LATB0                             00000000
+LATB1                             00000001
+LATB2                             00000002
+LATB3                             00000003
+LATB4                             00000004
+LATB5                             00000005
+LATB6                             00000006
+LATB7                             00000007
+LFIOFR                            00000001
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+LWLO                              00000005
+MAYOR                             00000070
+MAYORC                            0000008C
+MAYORD                            0000007E
+MAYORM                            0000009A
+MC1OUT                            00000000
+MC2OUT                            00000001
+MDBIT                             00000000
+MDCARH                            0000039F
+MDCARL                            0000039E
+MDCH0                             00000000
+MDCH1                             00000001
+MDCH2                             00000002
+MDCH3                             00000003
+MDCHODIS                          00000007
+MDCHPOL                           00000006
+MDCHSYNC                          00000005
+MDCL0                             00000000
+MDCL1                             00000001
+MDCL2                             00000002
+MDCL3                             00000003
+MDCLODIS                          00000007
+MDCLPOL                           00000006
+MDCLSYNC                          00000005
+MDCON                             0000039C
+MDEN                              00000007
+MDMS0                             00000000
+MDMS1                             00000001
+MDMS2                             00000002
+MDMS3                             00000003
+MDMSODIS                          00000007
+MDOE                              00000006
+MDOPOL                            00000004
+MDOUT                             00000003
+MDSLR                             00000005
+MDSRC                             0000039D
+MENOR                             00000074
+MENORC                            00000090
+MENORD                            00000082
+MENORM                            0000009D
+MFIOFR                            00000002
+MILLA                             00000095
+MILLARES                          00000076
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RI                            00000002
+NOT_RMCLR                         00000003
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_WPUEN                         00000007
+NUM1                              00000070
+NUM2                              00000071
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NUM3                              00000072
+OERR                              00000001
+OPTION_REG                        00000095
+OSCCON                            00000099
+OSCSTAT                           0000009A
+OSCTUNE                           00000098
+OSFIE                             00000007
+OSFIF                             00000007
+OSTS                              00000005
+OTRA                              00000063
+OTRA1                             000000F6
+OTRA15                            00000113
+OTRA25                            00000111
+OTRA5                             00000115
+OTRAR                             000000F8
+OTRO                              00000107
+OTRO1                             00000105
+OTRO2                             00000103
+P                                 00000004
+P1CSEL                            00000001
+P1DC0                             00000000
+P1DC1                             00000001
+P1DC2                             00000002
+P1DC3                             00000003
+P1DC4                             00000004
+P1DC5                             00000005
+P1DC6                             00000006
+P1DSEL                            00000002
+P1M0                              00000006
+P1M1                              00000007
+P1RSEN                            00000007
+P2BSEL                            00000004
+P2DC0                             00000000
+P2DC1                             00000001
+P2DC2                             00000002
+P2DC3                             00000003
+P2DC4                             00000004
+P2DC5                             00000005
+P2DC6                             00000006
+P2M0                              00000006
+P2M1                              00000007
+P2RSEN                            00000007
+PCIE                              00000006
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_SHAD                       00000FE7
+PCON                              00000096
+PEIE                              00000006
+PEN                               00000002
+PIE1                              00000091
+PIE2                              00000092
+PIE3                              00000093
+PIE4                              00000094
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PIR1                              00000011
+PIR2                              00000012
+PIR3                              00000013
+PIR4                              00000014
+PLLR                              00000006
+PORTA                             0000000C
+PORTB                             0000000D
+PR2                               0000001B
+PR4                               00000416
+PR6                               0000041D
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSS1AC0                           00000002
+PSS1AC1                           00000003
+PSS1BD0                           00000000
+PSS1BD1                           00000001
+PSS2AC0                           00000002
+PSS2AC1                           00000003
+PSS2BD0                           00000000
+PSS2BD1                           00000001
+PSTR1CON                          00000296
+PSTR2CON                          0000029D
+PWM1CON                           00000294
+PWM2CON                           0000029B
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RCEN                              00000003
+RCIDL                             00000006
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             00000199
+RCSTA                             0000019D
+RD                                00000000
+RETARDO_100MS                     00000101
+RETARDO_1S                        000000F3
+RETARDO_5MS                       0000010E
+ROTA                              000000A2
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+RXDTSEL                           00000007
+R_NOT_W                           00000002
+S                                 00000003
+SBCDE                             00000002
+SBOREN                            00000007
+SCIE                              00000005
+SCKP                              00000004
+SCS0                              00000000
+SCS1                              00000001
+SDAHT                             00000003
+SDO1SEL                           00000006
+SEN                               00000000
+SENDB                             00000003
+SMP                               00000007
+SPBRG                             0000019B
+SPBRGH                            0000019C
+SPBRGL                            0000019B
+SPEN                              00000007
+SPLLEN                            00000007
+SRCLK0                            00000004
+SRCLK1                            00000005
+SRCLK2                            00000006
+SRCON0                            0000011A
+SRCON1                            0000011B
+SREN                              00000005
+SRLEN                             00000007
+SRNQEN                            00000002
+SRPR                              00000000
+SRPS                              00000001
+SRQEN                             00000003
+SRRC1E                            00000000
+SRRC2E                            00000001
+SRRCKE                            00000002
+SRRPE                             00000003
+SRSC1E                            00000004
+SRSC2E                            00000005
+SRSCKE                            00000006
+SRSPE                             00000007
+SS1SEL                            00000005
+SSP1ADD                           00000212
+SSP1BUF                           00000211
+SSP1CON1                          00000215
+SSP1CON2                          00000216
+SSP1CON3                          00000217
+SSP1IE                            00000003
+SSP1IF                            00000003
+SSP1MSK                           00000213
+SSP1STAT                          00000214
+SSP2ADD                           0000021A
+SSP2BUF                           00000219
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSP2CON1                          0000021D
+SSP2CON2                          0000021E
+SSP2CON3                          0000021F
+SSP2IE                            00000000
+SSP2IF                            00000000
+SSP2MSK                           0000021B
+SSP2STAT                          0000021C
+SSPADD                            00000212
+SSPBUF                            00000211
+SSPCON                            00000215
+SSPCON1                           00000215
+SSPCON2                           00000216
+SSPCON3                           00000217
+SSPEN                             00000005
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPMSK                            00000213
+SSPOV                             00000006
+SSPSTAT                           00000214
+START                             0000004E
+STATUS                            00000003
+STATUS_SHAD                       00000FE4
+STKOVF                            00000007
+STKPTR                            00000FED
+STKUNF                            00000006
+STR1A                             00000000
+STR1B                             00000001
+STR1C                             00000002
+STR1D                             00000003
+STR1SYNC                          00000004
+STR2A                             00000000
+STR2B                             00000001
+STR2C                             00000002
+STR2D                             00000003
+STR2SYNC                          00000004
+SWDTEN                            00000000
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T0XCS                             00000000
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000018
+T1GCON                            00000019
+T1GGO                             00000003
+T1GPOL                            00000006
+T1GSPM                            00000004
+T1GSS0                            00000000
+T1GSS1                            00000001
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 22
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T1GTM                             00000005
+T1GVAL                            00000002
+T1OSCEN                           00000003
+T1OSCR                            00000007
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             0000001C
+T2OUTPS0                          00000003
+T2OUTPS1                          00000004
+T2OUTPS2                          00000005
+T2OUTPS3                          00000006
+T4CKPS0                           00000000
+T4CKPS1                           00000001
+T4CON                             00000417
+T4OUTPS0                          00000003
+T4OUTPS1                          00000004
+T4OUTPS2                          00000005
+T4OUTPS3                          00000006
+T6CKPS0                           00000000
+T6CKPS1                           00000001
+T6CON                             0000041E
+T6OUTPS0                          00000003
+T6OUTPS1                          00000004
+T6OUTPS2                          00000005
+T6OUTPS3                          00000006
+TABLAC                            0000001D
+TABLAD                            00000011
+TABLAM                            00000029
+TABLAU                            00000005
+TMR0                              00000015
+TMR0CS                            00000005
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR0SE                            00000004
+TMR1                              00000016
+TMR1CS0                           00000006
+TMR1CS1                           00000007
+TMR1GE                            00000007
+TMR1GIE                           00000007
+TMR1GIF                           00000007
+TMR1H                             00000017
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             00000016
+TMR1ON                            00000000
+TMR2                              0000001A
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TMR4                              00000415
+TMR4IE                            00000001
+TMR4IF                            00000001
+TMR4ON                            00000002
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 23
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TMR6                              0000041C
+TMR6IE                            00000003
+TMR6IF                            00000003
+TMR6ON                            00000002
+TOSH                              00000FEF
+TOSL                              00000FEE
+TRISA                             0000008C
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             0000008D
+TRISB0                            00000000
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TSEN                              00000005
+TSRNG                             00000004
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+TUN4                              00000004
+TUN5                              00000005
+TX9                               00000006
+TX9D                              00000000
+TXCKSEL                           00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             0000019A
+TXSTA                             0000019E
+UA                                00000001
+UNIDADES                          00000073
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000097
+WDTPS0                            00000001
+WDTPS1                            00000002
+WDTPS2                            00000003
+WDTPS3                            00000004
+WDTPS4                            00000005
+WPUA                              0000020C
+WPUA5                             00000005
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 24
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+WPUB                              0000020D
+WPUB0                             00000000
+WPUB1                             00000001
+WPUB2                             00000002
+WPUB3                             00000003
+WPUB4                             00000004
+WPUB5                             00000005
+WPUB6                             00000006
+WPUB7                             00000007
+WR                                00000001
+WREG                              00000009
+WREG_SHAD                         00000FE5
+WREN                              00000002
+WRERR                             00000003
+WUE                               00000001
+Z                                 00000002
+Z_SHAD                            00000002
+_BOREN_NSLEEP                     0000FDFF
+_BOREN_OFF                        0000F9FF
+_BOREN_ON                         0000FFFF
+_BOREN_SBODEN                     0000FBFF
+_BORV_19                          0000FFFF
+_BORV_HI                          0000FBFF
+_BORV_LO                          0000FFFF
+_CLKOUTEN_OFF                     0000FFFF
+_CLKOUTEN_ON                      0000F7FF
+_CONFIG1                          00008007
+_CONFIG2                          00008008
+_CPD_OFF                          0000FFFF
+_CPD_ON                           0000FEFF
+_CP_OFF                           0000FFFF
+_CP_ON                            0000FF7F
+_DEVID1                           00008006
+_FCMEN_OFF                        0000DFFF
+_FCMEN_ON                         0000FFFF
+_FOSC_ECH                         0000FFFF
+_FOSC_ECL                         0000FFFD
+_FOSC_ECM                         0000FFFE
+_FOSC_EXTRC                       0000FFFB
+_FOSC_HS                          0000FFFA
+_FOSC_INTOSC                      0000FFFC
+_FOSC_LP                          0000FFF8
+_FOSC_XT                          0000FFF9
+_IDLOC0                           00008000
+_IDLOC1                           00008001
+_IDLOC2                           00008002
+_IDLOC3                           00008003
+_IESO_OFF                         0000EFFF
+_IESO_ON                          0000FFFF
+_LVP_OFF                          0000DFFF
+_LVP_ON                           0000FFFF
+_MCLRE_OFF                        0000FFBF
+_MCLRE_ON                         0000FFFF
+MPASM  5.48            TEMPERATURA_SERIAL.ASM   6-22-2013  12:31:26         PAGE 25
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_PLLEN_OFF                        0000FEFF
+_PLLEN_ON                         0000FFFF
+_PWRTE_OFF                        0000FFFF
+_PWRTE_ON                         0000FFDF
+_STVREN_OFF                       0000FDFF
+_STVREN_ON                        0000FFFF
+_WDTE_NSLEEP                      0000FFF7
+_WDTE_OFF                         0000FFE7
+_WDTE_ON                          0000FFFF
+_WDTE_SWDTEN                      0000FFEF
+_WRT_ALL                          0000FFFC
+_WRT_BOOT                         0000FFFE
+_WRT_HALF                         0000FFFD
+_WRT_OFF                          0000FFFF
+__16F1827                         00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXX---- ---------------- ----------------
+8000 : -------XX------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   283
+Program Memory Words Free:  3813
+
+
+Errors   :     0
+Warnings :     3 reported,     0 suppressed
+Messages :     6 reported,    29 suppressed
+
+

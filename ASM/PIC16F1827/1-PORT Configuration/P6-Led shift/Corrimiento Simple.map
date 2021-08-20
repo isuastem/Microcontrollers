@@ -1,0 +1,45 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Sat May 04 00:59:59 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000b4
+.config_8007_CORRIMIENTO SIMPLE.O       code   0x008007    program   0x000002
+.config_8008_CORRIMIENTO SIMPLE.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x00005d      
+                            0x008007    0x008008      
+            93 out of 4359 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+                    OTRA1   0x000053    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+                    OTRAR   0x000055    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+                 PROGRAMA   0x000014    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+               RETARDO_1S   0x000051    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+                 PROGRAMA   0x000014    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+               RETARDO_1S   0x000051    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+                    OTRA1   0x000053    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+                    OTRAR   0x000055    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 1\P6-CORRIMIENTO DE LEDS\Corrimiento Simple.asm
+
+

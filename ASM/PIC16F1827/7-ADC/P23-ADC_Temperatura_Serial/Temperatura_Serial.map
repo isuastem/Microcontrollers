@@ -1,0 +1,107 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Sat Jun 22 12:31:27 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000230
+.config_8007_TEMPERATURA_SERIAL.O       code   0x008007    program   0x000002
+.config_8008_TEMPERATURA_SERIAL.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x00011b      
+                            0x008007    0x008008      
+            283 out of 4359 program addresses used, program memory utilization is 6%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    ADQUI   0x000052    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                BCD_ASCII   0x0000a9    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   BINBCD   0x00005e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    CENTE   0x000087    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     DECE   0x000079    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                DESPLIEGA   0x0000b2    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   INICIO   0x000035    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                 INIT_ADC   0x0000d8    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                INIT_UART   0x0000df    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    MAYOR   0x000070    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MAYORC   0x00008c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MAYORD   0x00007e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MAYORM   0x00009a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    MENOR   0x000074    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MENORC   0x000090    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MENORD   0x000082    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MENORM   0x00009d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    MILLA   0x000095    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     OTRA   0x000063    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRA1   0x0000f6    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   OTRA15   0x000113    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   OTRA25   0x000111    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRA5   0x000115    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRAR   0x0000f8    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     OTRO   0x000107    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRO1   0x000105    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRO2   0x000103    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+            RETARDO_100MS   0x000101    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+               RETARDO_1S   0x0000f3    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+              RETARDO_5MS   0x00010e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     ROTA   0x0000a2    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    START   0x00004e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   TABLAC   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   TABLAD   0x000011    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   TABLAM   0x000029    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   TABLAU   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   TABLAU   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   TABLAD   0x000011    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   TABLAC   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   TABLAM   0x000029    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   INICIO   0x000035    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    START   0x00004e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    ADQUI   0x000052    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   BINBCD   0x00005e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     OTRA   0x000063    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    MAYOR   0x000070    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    MENOR   0x000074    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     DECE   0x000079    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MAYORD   0x00007e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MENORD   0x000082    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    CENTE   0x000087    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MAYORC   0x00008c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MENORC   0x000090    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    MILLA   0x000095    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MAYORM   0x00009a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   MENORM   0x00009d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     ROTA   0x0000a2    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                BCD_ASCII   0x0000a9    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                DESPLIEGA   0x0000b2    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                 INIT_ADC   0x0000d8    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                INIT_UART   0x0000df    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+               RETARDO_1S   0x0000f3    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRA1   0x0000f6    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRAR   0x0000f8    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+            RETARDO_100MS   0x000101    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRO2   0x000103    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRO1   0x000105    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                     OTRO   0x000107    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+              RETARDO_5MS   0x00010e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   OTRA25   0x000111    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                   OTRA15   0x000113    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+                    OTRA5   0x000115    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 8 - ADC\P23-ADC_Temperatura_Serial\Temperatura_Serial.ASM
+
+

@@ -1,0 +1,45 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Sat Jul 13 11:53:06 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x00008a
+.config_8007_APP INVENTOR ONOFF.O       code   0x008007    program   0x000002
+.config_8008_APP INVENTOR ONOFF.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000048      
+                            0x008007    0x008008      
+            72 out of 4359 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    APAGA   0x00002d    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                   INICIO   0x000009    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                     NEXT   0x000025    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                    START   0x00001d    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                 UART_INI   0x000035    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000009    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                    START   0x00001d    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                     NEXT   0x000025    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                    APAGA   0x00002d    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+                 UART_INI   0x000035    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\App Inventor ONOFF.asm
+
+

@@ -1,0 +1,63 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Fri May 31 15:29:10 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000a2
+.config_8007_MOTORCD_ON-OFF&R-L.O       code   0x008007    program   0x000002
+.config_8008_MOTORCD_ON-OFF&R-L.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000054      
+                            0x008007    0x008008      
+            84 out of 4359 program addresses used, program memory utilization is 1%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+               ARRANQUE_D   0x000022    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+               ARRANQUE_I   0x000035    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+            CONFIGURACION   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   GIRO_D   0x00003b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   GIRO_I   0x000028    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                 INICIO_D   0x000018    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                 INICIO_I   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   OTRA0M   0x00004c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   OTRA1M   0x00004a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   PARO_D   0x00002d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   PARO_I   0x000040    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+        PREGUNTA_CAMBIO_D   0x000037    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+        PREGUNTA_CAMBIO_I   0x000024    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+              RETARDO_5MS   0x000048    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+            CONFIGURACION   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                 INICIO_D   0x000018    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                 INICIO_I   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+               ARRANQUE_D   0x000022    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+        PREGUNTA_CAMBIO_I   0x000024    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   GIRO_I   0x000028    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   PARO_D   0x00002d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+               ARRANQUE_I   0x000035    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+        PREGUNTA_CAMBIO_D   0x000037    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   GIRO_D   0x00003b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   PARO_I   0x000040    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+              RETARDO_5MS   0x000048    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   OTRA1M   0x00004a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+                   OTRA0M   0x00004c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 4\P15-MotorCD_On_Off_&_R_L\MotorCD_On-Off&R-L.asm
+
+

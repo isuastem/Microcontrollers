@@ -1,0 +1,39 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Fri Jul 19 16:47:27 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x000026
+.config_8007_PRENDE LED RB0.O       code   0x008007    program   0x000002
+.config_8008_PRENDE LED RB0.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000016      
+                            0x008007    0x008008      
+            22 out of 4359 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 2 - Configuracion de Puertos\P3-PRENDE LED - RB0\Prende Led RB0.asm
+                 PROGRAMA   0x000015    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 2 - Configuracion de Puertos\P3-PRENDE LED - RB0\Prende Led RB0.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 2 - Configuracion de Puertos\P3-PRENDE LED - RB0\Prende Led RB0.asm
+                 PROGRAMA   0x000015    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 2 - Configuracion de Puertos\P3-PRENDE LED - RB0\Prende Led RB0.asm
+
+

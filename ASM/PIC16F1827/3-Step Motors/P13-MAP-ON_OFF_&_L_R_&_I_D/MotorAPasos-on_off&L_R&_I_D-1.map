@@ -1,0 +1,65 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Thu May 23 15:19:42 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x00010a
+.config_8007_MOTORAPASOS-ON_OFF&L_R&_I_D-1.O       code   0x008007    program   0x000002
+.config_8008_MOTORAPASOS-ON_OFF&L_R&_I_D-1.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000088      
+                            0x008007    0x008008      
+            136 out of 4359 program addresses used, program memory utilization is 3%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+            APAGO_MOTOR_D   0x000017    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+            APAGO_MOTOR_I   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                 BOTON_ID   0x000062    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+            CONFIGURACION   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                  DECRE_V   0x00006a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                 FIN_DATO   0x000079    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                  INCRE_V   0x000070    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+               INICIO_G_D   0x000017    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+               INICIO_G_I   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+               NEXT_BOTON   0x000066    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                   OTRA0V   0x000080    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                   OTRA1V   0x00007e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                RETARDO_V   0x00007c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+              SEC_DERECHA   0x000023    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+            SEC_IZQUIERDA   0x000043    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+            CONFIGURACION   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+            APAGO_MOTOR_D   0x000017    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+               INICIO_G_D   0x000017    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+            APAGO_MOTOR_I   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+               INICIO_G_I   0x00001d    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+              SEC_DERECHA   0x000023    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+            SEC_IZQUIERDA   0x000043    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                 BOTON_ID   0x000062    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+               NEXT_BOTON   0x000066    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                  DECRE_V   0x00006a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                  INCRE_V   0x000070    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                 FIN_DATO   0x000079    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                RETARDO_V   0x00007c    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                   OTRA1V   0x00007e    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+                   OTRA0V   0x000080    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 3\P13-MAP-ON_OFF_&_L_R_&_I_D\MotorAPasos-on_off&L_R&_I_D-1.asm
+
+

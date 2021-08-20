@@ -1,0 +1,1219 @@
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 
+                      00002 
+                      00003 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00004 #INCLUDE <P16F1827.INC>                                         ;DECLARO LA LIBRERIA DEL MICROCONTROLADO
+                            R CORRESPONDIENTE
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ;  MPASM PIC16F1827 processor include
+                      00005 ; 
+                      00006 ;  (c) Copyright 1999-2012 Microchip Technology, All rights reserved
+                      00007 ;==========================================================================
+                      00008 
+                      01305         LIST
+                      00005 
+                      00006 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00007 ;P A L A B R A   D E   C O N F I G U R A C I O N
+Message[303]: Program word too large.  Truncated to core size. (CFC4)
+8007   0FC4           00008         __config        _CONFIG1, _FOSC_INTOSC & _WDTE_OFF & _PWRTE_ON & _MCLRE_ON & _CP_OFF & _CPD_OFF 
+                            & _BOREN_ON & _CLKOUTEN_OFF & _IESO_OFF & _FCMEN_OFF
+Message[303]: Program word too large.  Truncated to core size. (DFFF)
+8008   1FFF           00009         __config        _CONFIG2, _WRT_OFF & _PLLEN_ON & _STVREN_ON  & _LVP_OFF 
+                      00010 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00011 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+Warning[205]: Found directive in column 1. (ERRORLEVEL)
+                      00012 ERRORLEVEL  -302                                        ; ELIMINO DE LA VENTANA DE COMPILACION EL ERROR 
+                            302
+                      00013 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00014         CBLOCK  0X120
+  00000120            00015         NUM1,NUM2,NUM3,SHIFT
+                      00016         ENDC
+                      00017 
+                      00018 #DEFINE RS LATA,6               
+                      00019 #DEFINE EN LATA,7
+                      00020 
+  00000001            00021 LIMPIAR         EQU B'00000001' ;LIMPIA TODA LA PANTALLA
+  00000080            00022 RENGLON1        EQU     B'10000000'     ;COLOCA EN EL RENGLON 1
+  000000C0            00023 RENGLON2        EQU     B'11000000'     ;COLOCA EN EL RENGLON2
+  0000000C            00024 DISON           EQU     B'00001100'     ;ENCIENDE EL DISPLAY
+  00000002            00025 HOME            EQU     B'00000010'     ;VA A LA DIDERCCION 0
+  0000001C            00026 SHIFTDL         EQU     B'00011100'     ;ROTA EL LCD A LA IZQUIERDA
+  00000018            00027 SHIFTDR         EQU     B'00011000'     ;ROTA EL LCD A LA DERECHA
+  00000014            00028 SHIFTCL         EQU     B'00010100'     ;ROTA EL CURSOR A LA IZQUIERDA
+  00000010            00029 SHIFTCR         EQU     B'00010000'     ;ROTA EL CURSOR A LA DERECHA
+                      00030 
+                      00031 
+                      00032 
+                      00033 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+0000                  00034         ORG     0X00
+0000   2805           00035                         GOTO INICIO                                             ;DECLARO EL VECTOR DE IN
+                            ICIO O RESET
+                      00036 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+0004                  00037         ORG     0X04    
+0004   0009           00038                         RETFIE                                                  ; DECLARO EL VECTOR DE I
+                            NTERRUPCION
+                      00039 
+                      00040 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00041 
+                      00042 
+0005                  00043 INICIO:                 
+0005   0021           00044                                 BANKSEL OSCCON          
+0006   30F0           00045                                 MOVLW           B'11110000'     ;CONFIGURO EL REGISTRO OSCCON
+0007   0099           00046                                 MOVWF           OSCCON
+                      00047 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00048 
+0008   0022           00049                                         BANKSEL APFCON0
+0009   307F           00050                                 MOVLW           B'01111111'             ;CONFIGURO LOS REGISTROS        
+                            APFCON0 Y APFCON1
+000A   009D           00051                                 MOVWF           APFCON0
+                      00052                         
+000B   0022           00053                                         BANKSEL APFCON1
+                      00054                         
+000C   3000           00055                                 MOVLW           B'00000000'
+000D   009E           00056                                 MOVWF           APFCON1
+                      00057 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-                   
+000E   0023           00058                                         BANKSEL ANSELB
+                      00059                                 
+000F   018D           00060                                 CLRF ANSELB                             ;DESHABILITO LOS CANALES ANALOGI
+                            COS
+0010   018C           00061                                 CLRF ANSELA 
+                      00062 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-                   
+                      00063 
+0011   0021           00064                                         BANKSEL TRISB
+0012   018D           00065                                 CLRF    TRISB                   ;CONFIGURO PORTB COMO SALIDA
+0013   018C           00066                                 CLRF    TRISA                   ;CONFIGURO PORTA COMO SALIDA
+                      00067         
+                      00068                                 
+0014   0022           00069                                         BANKSEL LATB
+                      00070 
+                      00071 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-           
+                      00072 ; I N I C I A L I Z A C I O N   D E   P E R I F E R I C O S
+0015   203F           00073                                 CALL    INITLCD         ;INICIALIZO LA LCD
+                      00074 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-           
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00075 ; I N I C I A L I Z A C I O N   D E   R E G I S T R O S
+0016   018D           00076                                 CLRF    LATB                            ;PONGO A CEROS PORTB
+                      00077                 
+                      00078 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-           
+                      00079 ; P R O G R A M A   P R I N C I P A L
+                      00080 
+0017                  00081 PROGRAMA:
+                      00082 
+                      00083         
+0017   3001           00084         MOVLW LIMPIAR
+0018   205F           00085         CALL CMD
+                      00086         
+0019   2024           00087         CALL MENSAJE
+                      00088 
+001A   300A           00089         MOVLW D'10'
+001B   00A3           00090         MOVWF SHIFT
+                      00091 
+001C                  00092 VUELTA 
+                      00093 
+001C   2066           00094         CALL RETARDO_1SEG
+001D   3018           00095         MOVLW SHIFTDR ;COMANDO DE ROTACION
+001E   205F           00096         CALL CMD
+                      00097 
+001F   0BA3           00098         DECFSZ SHIFT,F
+0020   281C           00099         GOTO VUELTA
+                      00100 
+0021   3001           00101         MOVLW LIMPIAR ;COMANDO DE LIMPIEZA DE PANTALLA
+0022   205F           00102         CALL CMD
+                      00103         
+0023   2817           00104         GOTO PROGRAMA
+                      00105 
+                      00106         
+0024                  00107 MENSAJE:        
+                      00108 
+0024   3080           00109         MOVLW RENGLON1
+0025   205F           00110         CALL CMD
+                      00111         
+0026   3053           00112         MOVLW   "S"
+0027   2055           00113         CALL    DATO
+0028   3049           00114         MOVLW   "I"
+0029   2055           00115         CALL    DATO
+                      00116 
+                      00117 
+002A   30C0           00118         MOVLW   RENGLON2
+002B   205F           00119         CALL    CMD
+                      00120 
+002C   3046           00121         MOVLW   "F"
+002D   2055           00122         CALL    DATO
+002E   3055           00123         MOVLW   "U"
+002F   2055           00124         CALL    DATO
+0030   304E           00125         MOVLW   "N"
+0031   2055           00126         CALL    DATO
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0032   3043           00127         MOVLW   "C"
+0033   2055           00128         CALL    DATO
+0034   3049           00129         MOVLW   "I"
+0035   2055           00130         CALL    DATO
+0036   304F           00131         MOVLW   "O"
+0037   2055           00132         CALL    DATO
+0038   304E           00133         MOVLW   "N"
+0039   2055           00134         CALL    DATO
+003A   3041           00135         MOVLW   "A"
+003B   2055           00136         CALL    DATO
+003C   3021           00137         MOVLW   "!"
+003D   2055           00138         CALL    DATO
+                      00139 
+003E   0008           00140         RETURN
+                      00141         
+                      00142 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00143 ;SUBRUTINA DE INICIALIZACION DE LA PANTALLA DE CRISTAL LIQUIDO
+003F                  00144 INITLCD:        
+                      00145                         
+003F   2073           00146                         CALL    RETARDO5MS
+0040   2073           00147                         CALL    RETARDO5MS
+0041   2073           00148                         CALL    RETARDO5MS
+                      00149                         
+0042   3030           00150                                 MOVLW   B'00110000'             ;SE INICIALIZA LA PANTALLA
+0043   205F           00151                                 CALL    CMD
+0044   3030           00152                                 MOVLW   B'00110000'
+0045   205F           00153                                 CALL    CMD
+0046   3030           00154                                 MOVLW   B'00110000'
+0047   205F           00155                                 CALL    CMD
+                      00156         
+                      00157 ;SELECCION DE BITS ( 4 - 8 ) 
+                      00158 
+                      00159 ;DL = 1 ->  8 BITS   ;   DL = 0 -> 4 BITS
+                      00160 ;N  = 1 ->  2 LINEAS ;   N  = 0 -> 1 LINEA
+                      00161 ;F  = 1 ->  5X11     ;   F  = 0 -> 5X8
+                      00162 ; 0  0  1  DL  N  F  -  -
+                      00163         
+0048   303C           00164                                 MOVLW   B'00111100'             ;SE SELECCIONA SI LA PANTALLA SERA USADA
+                             A 4 O A 8 BITS CON EL BIT4. 
+0049   205F           00165                                 CALL    CMD
+                      00166 
+                      00167 ;SE APAGA LA PANTALLA 
+                      00168 
+                      00169 ;D = 1 -> DISPLAY-ON  ; D = 0 -> DISPLAY-OFF
+                      00170 ;C = 1 -> CURSOR-ON   ; C = 0 -> CURSOR-0FF 
+                      00171 ;B = 1 -> PARPADEO-ON ; B = 0 -> PARPADEO-OFF
+                      00172 ; 0  0  0  0  1  D  C  B
+                      00173 
+004A   3008           00174                                 MOVLW   B'00001000' ;SE APAGA LA PANTALLA
+004B   205F           00175                                 CALL    CMD
+                      00176 
+                      00177 ;SE LIMPIA EL DISPLAY 
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00178 
+                      00179 
+004C   3001           00180                                 MOVLW   B'00000001';SE LIMPIA EL DISPLAY
+004D   205F           00181                                 CALL    CMD
+                      00182 
+                      00183 
+                      00184 ;CONFIGURACION DE ESCRITURA DECREMENTAL-INCREMENTAL 
+                      00185 
+                      00186 ;I/D = 1 -> INCREMENTAL
+                      00187 ;SH  = 0 -> NO PARPADE0 DE TODA LA PANTALLA
+                      00188 ; 0  0  0  0  0  1  I/D  SH
+                      00189         
+004E   3006           00190                                 MOVLW   B'00000110'
+004F   205F           00191                                 CALL    CMD
+                      00192 
+                      00193 
+                      00194 ;SE ENCIENDE LA PANTALLA 
+                      00195 
+                      00196 ;D = 1 -> DISPLAY-ON  ; D = 0 -> DISPLAY-OFF
+                      00197 ;C = 1 -> CURSOR-ON   ; C = 0 -> CURSOR-0FF 
+                      00198 ;B = 1 -> PARPADEO-ON ; B = 0 -> PARPADEO-OFF
+                      00199 ; 0  0  0  0  1  D  C  B
+                      00200         
+0050   300C           00201                                 MOVLW   DISON;SE PRENDE EL DISPLAY SIN HABILITAR EL CURSOR NI EL PARPADE
+                            O DEL MISMO
+0051   205F           00202                                 CALL    CMD
+                      00203 
+                      00204 
+                      00205 ;SE POSICIONA EN LA PRIMER POSICION DEL DISPLAY
+                      00206 
+0052   3002           00207                                 MOVLW   HOME;SE 
+0053   205F           00208                                 CALL    CMD
+                      00209 
+0054   0008           00210                                 RETURN
+                      00211 
+                      00212 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00213 ;SUBRUTINA DE ENVIO DE DATOS
+0055                  00214 DATO:
+0055   0022           00215                                 BANKSEL LATB
+0056   008D           00216                                 MOVWF   LATB                    ;PARA ENVIAR UN DATO PIRMERO SE MANDA EL
+                             DATO AL PUERTO
+0057   170C           00217                                 BSF     RS              ;LUEGO SE PONE EN UNO RS POR MENOS DE 5MS
+0058   0000           00218                                 NOP
+0059   0000           00219                                 NOP
+005A   0000           00220                                 NOP             
+005B   178C           00221                                 BSF     EN              ;SE COLOCA UNO EN ENEABLE POR MENOS DE 5MS
+005C   2073           00222                                 CALL    RETARDO5MS              ;Y POR ULTIMO SE PONE CERO EN ENEABLE
+005D   138C           00223                                 BCF     EN
+005E   0008           00224                                 RETURN                  
+                      00225                         
+                      00226 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00227 ;SUBRUTINA DE ENVIO DE COMANDOS         
+005F                  00228 CMD:
+005F   0022           00229                                 BANKSEL LATB
+0060   008D           00230                                 MOVWF   LATB
+0061   130C           00231                                 BCF     RS
+0062   178C           00232                                 BSF     EN
+0063   2073           00233                                 CALL    RETARDO5MS
+0064   138C           00234                                 BCF     EN
+0065   0008           00235                                 RETURN          
+                      00236                                 
+                      00237 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+                      00238 ; S U B R U T I N A  D E   R E T A R D O 1 SEGUNDO
+0066                  00239 RETARDO_1SEG:   
+                      00240                         
+0066   3050           00241                         MOVLW   .80 ;80 
+0067   00A2           00242                         MOVWF   NUM3
+                      00243 
+0068   30C8           00244 OTRA1:          MOVLW   .200
+0069   00A1           00245                         MOVWF   NUM2
+                      00246 
+006A   30A6           00247 OTRAR:                  MOVLW   .166
+006B   00A0           00248                         MOVWF   NUM1
+006C   0BA0           00249                         DECFSZ  NUM1,F
+006D   286C           00250                         GOTO    $-1
+Message[305]: Using default destination of 1 (file).
+006E   0BA1           00251                         DECFSZ  NUM2
+006F   286A           00252                         GOTO    OTRAR
+                      00253 
+Message[305]: Using default destination of 1 (file).
+0070   0BA2           00254                         DECFSZ  NUM3
+0071   2868           00255                         GOTO    OTRA1
+0072   0008           00256                         RETURN  
+                      00257                         
+                      00258 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00259 
+                      00260 
+0073                  00261 RETARDO5MS 
+0073   3001           00262                         MOVLW   D'1'
+0074   00A2           00263                         MOVWF   NUM3
+                      00264 
+0075   3064           00265 OTRA25          MOVLW   D'100'
+0076   00A1           00266                         MOVWF   NUM2
+                      00267 
+                      00268 
+0077   30A6           00269 OTRA15          MOVLW   D'166'
+0078   00A0           00270                         MOVWF   NUM1
+0079   0BA0           00271 OTRA5           DECFSZ  NUM1,F
+007A   2879           00272                         GOTO    OTRA5
+                      00273 
+007B   0BA1           00274                         DECFSZ  NUM2,F
+007C   2877           00275                         GOTO    OTRA15
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00276 
+007D   0BA2           00277                         DECFSZ  NUM3,F
+007E   2875           00278                         GOTO    OTRA25
+007F   0008           00279                         RETURN
+                      00280 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-   
+                      00281 
+                      00282 ;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+                            -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+Warning[205]: Found directive in column 1. (END)
+Message[303]: Program word too large.  Truncated to core size. (CFC4)
+Message[303]: Program word too large.  Truncated to core size. (DFFF)
+                      00283 END             ;D I R E C T R I Z   D E   F I N A L   D E   P R O G R A M A
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ABDEN                             00000000
+ABDOVF                            00000007
+ACKDT                             00000005
+ACKEN                             00000004
+ACKSTAT                           00000006
+ACKTIM                            00000007
+ADCON0                            0000009D
+ADCON1                            0000009E
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADDEN                             00000003
+ADFM                              00000007
+ADFVR0                            00000000
+ADFVR1                            00000001
+ADGO                              00000001
+ADIE                              00000006
+ADIF                              00000006
+ADNREF                            00000002
+ADON                              00000000
+ADPREF0                           00000000
+ADPREF1                           00000001
+ADRES                             0000009B
+ADRESH                            0000009C
+ADRESL                            0000009B
+AHEN                              00000001
+ANSA0                             00000000
+ANSA1                             00000001
+ANSA2                             00000002
+ANSA3                             00000003
+ANSA4                             00000004
+ANSB1                             00000001
+ANSB2                             00000002
+ANSB3                             00000003
+ANSB4                             00000004
+ANSB5                             00000005
+ANSB6                             00000006
+ANSB7                             00000007
+ANSELA                            0000018C
+ANSELB                            0000018D
+APFCON0                           0000011D
+APFCON1                           0000011E
+BAUDCON                           0000019F
+BCL1IE                            00000003
+BCL1IF                            00000003
+BCL2IE                            00000001
+BCL2IF                            00000001
+BF                                00000000
+BOEN                              00000004
+BORCON                            00000116
+BORRDY                            00000000
+BRG16                             00000003
+BRGH                              00000002
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+BSR                               00000008
+BSR0                              00000000
+BSR1                              00000001
+BSR2                              00000002
+BSR3                              00000003
+BSR4                              00000004
+BSR_SHAD                          00000FE6
+C                                 00000000
+C1HYS                             00000001
+C1IE                              00000005
+C1IF                              00000005
+C1INTN                            00000006
+C1INTP                            00000007
+C1NCH0                            00000000
+C1NCH1                            00000001
+C1OE                              00000005
+C1ON                              00000007
+C1OUT                             00000006
+C1PCH0                            00000004
+C1PCH1                            00000005
+C1POL                             00000004
+C1SP                              00000002
+C1SYNC                            00000000
+C1TSEL0                           00000000
+C1TSEL1                           00000001
+C2HYS                             00000001
+C2IE                              00000006
+C2IF                              00000006
+C2INTN                            00000006
+C2INTP                            00000007
+C2NCH0                            00000000
+C2NCH1                            00000001
+C2OE                              00000005
+C2ON                              00000007
+C2OUT                             00000006
+C2PCH0                            00000004
+C2PCH1                            00000005
+C2POL                             00000004
+C2SP                              00000002
+C2SYNC                            00000000
+C2TSEL0                           00000002
+C2TSEL1                           00000003
+C3TSEL0                           00000004
+C3TSEL1                           00000005
+C4TSEL0                           00000006
+C4TSEL1                           00000007
+CCP1AS                            00000295
+CCP1AS0                           00000004
+CCP1AS1                           00000005
+CCP1AS2                           00000006
+CCP1ASE                           00000007
+CCP1CON                           00000293
+CCP1IE                            00000002
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CCP1IF                            00000002
+CCP1M0                            00000000
+CCP1M1                            00000001
+CCP1M2                            00000002
+CCP1M3                            00000003
+CCP1SEL                           00000000
+CCP2AS                            0000029C
+CCP2AS0                           00000004
+CCP2AS1                           00000005
+CCP2AS2                           00000006
+CCP2ASE                           00000007
+CCP2CON                           0000029A
+CCP2IE                            00000000
+CCP2IF                            00000000
+CCP2M0                            00000000
+CCP2M1                            00000001
+CCP2M2                            00000002
+CCP2M3                            00000003
+CCP2SEL                           00000003
+CCP3CON                           00000313
+CCP3IE                            00000004
+CCP3IF                            00000004
+CCP3M0                            00000000
+CCP3M1                            00000001
+CCP3M2                            00000002
+CCP3M3                            00000003
+CCP4CON                           0000031A
+CCP4IE                            00000005
+CCP4IF                            00000005
+CCP4M0                            00000000
+CCP4M1                            00000001
+CCP4M2                            00000002
+CCP4M3                            00000003
+CCPR1H                            00000292
+CCPR1L                            00000291
+CCPR2H                            00000299
+CCPR2L                            00000298
+CCPR3H                            00000312
+CCPR3L                            00000311
+CCPR4H                            00000319
+CCPR4L                            00000318
+CCPTMRS                           0000029E
+CCPTMRS0                          0000029E
+CDAFVR0                           00000002
+CDAFVR1                           00000003
+CFGS                              00000006
+CHS0                              00000002
+CHS1                              00000003
+CHS2                              00000004
+CHS3                              00000005
+CHS4                              00000006
+CKE                               00000006
+CKP                               00000004
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+CLKRCON                           0000039A
+CLKRDC0                           00000003
+CLKRDC1                           00000004
+CLKRDIV0                          00000000
+CLKRDIV1                          00000001
+CLKRDIV2                          00000002
+CLKREN                            00000007
+CLKROE                            00000006
+CLKRSLR                           00000005
+CM1CON0                           00000111
+CM1CON1                           00000112
+CM2CON0                           00000113
+CM2CON1                           00000114
+CMD                               0000005F
+CMOUT                             00000115
+CPSCH0                            00000000
+CPSCH1                            00000001
+CPSCH2                            00000002
+CPSCH3                            00000003
+CPSCON0                           0000001E
+CPSCON1                           0000001F
+CPSON                             00000007
+CPSOUT                            00000001
+CPSRNG0                           00000002
+CPSRNG1                           00000003
+CREN                              00000004
+CSRC                              00000007
+C_SHAD                            00000000
+DACCON0                           00000118
+DACCON1                           00000119
+DACEN                             00000007
+DACLPS                            00000006
+DACNSS                            00000000
+DACOE                             00000005
+DACPSS0                           00000002
+DACPSS1                           00000003
+DACR0                             00000000
+DACR1                             00000001
+DACR2                             00000002
+DACR3                             00000003
+DACR4                             00000004
+DATO                              00000055
+DC                                00000001
+DC1B0                             00000004
+DC1B1                             00000005
+DC2B0                             00000004
+DC2B1                             00000005
+DC3B0                             00000004
+DC3B1                             00000005
+DC4B0                             00000004
+DC4B1                             00000005
+DC_SHAD                           00000001
+DHEN                              00000000
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+DISON                             0000000C
+D_NOT_A                           00000005
+ECCP1AS                           00000295
+ECCP2AS                           0000029C
+EEADR                             00000191
+EEADRH                            00000192
+EEADRL                            00000191
+EECON1                            00000195
+EECON2                            00000196
+EEDAT                             00000193
+EEDATH                            00000194
+EEDATL                            00000193
+EEIE                              00000004
+EEIF                              00000004
+EEPGD                             00000007
+EN                                LATA,7
+F                                 00000001
+FERR                              00000002
+FREE                              00000004
+FSR0                              00000004
+FSR0H                             00000005
+FSR0H_SHAD                        00000FE9
+FSR0L                             00000004
+FSR0L_SHAD                        00000FE8
+FSR1                              00000006
+FSR1H                             00000007
+FSR1H_SHAD                        00000FEB
+FSR1L                             00000006
+FSR1L_SHAD                        00000FEA
+FVRCON                            00000117
+FVREN                             00000007
+FVRRDY                            00000006
+GCEN                              00000007
+GIE                               00000007
+GO                                00000001
+GO_NOT_DONE                       00000001
+HFIOFL                            00000003
+HFIOFR                            00000004
+HFIOFS                            00000000
+HOME                              00000002
+INDF0                             00000000
+INDF1                             00000001
+INICIO                            00000005
+INITLCD                           0000003F
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOCBF                             00000396
+IOCBF0                            00000000
+IOCBF1                            00000001
+IOCBF2                            00000002
+IOCBF3                            00000003
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+IOCBF4                            00000004
+IOCBF5                            00000005
+IOCBF6                            00000006
+IOCBF7                            00000007
+IOCBN                             00000395
+IOCBN0                            00000000
+IOCBN1                            00000001
+IOCBN2                            00000002
+IOCBN3                            00000003
+IOCBN4                            00000004
+IOCBN5                            00000005
+IOCBN6                            00000006
+IOCBN7                            00000007
+IOCBP                             00000394
+IOCBP0                            00000000
+IOCBP1                            00000001
+IOCBP2                            00000002
+IOCBP3                            00000003
+IOCBP4                            00000004
+IOCBP5                            00000005
+IOCBP6                            00000006
+IOCBP7                            00000007
+IOCIE                             00000003
+IOCIF                             00000000
+IRCF0                             00000003
+IRCF1                             00000004
+IRCF2                             00000005
+IRCF3                             00000006
+LATA                              0000010C
+LATA0                             00000000
+LATA1                             00000001
+LATA2                             00000002
+LATA3                             00000003
+LATA4                             00000004
+LATA6                             00000006
+LATA7                             00000007
+LATB                              0000010D
+LATB0                             00000000
+LATB1                             00000001
+LATB2                             00000002
+LATB3                             00000003
+LATB4                             00000004
+LATB5                             00000005
+LATB6                             00000006
+LATB7                             00000007
+LFIOFR                            00000001
+LIMPIAR                           00000001
+LWLO                              00000005
+MC1OUT                            00000000
+MC2OUT                            00000001
+MDBIT                             00000000
+MDCARH                            0000039F
+MDCARL                            0000039E
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+MDCH0                             00000000
+MDCH1                             00000001
+MDCH2                             00000002
+MDCH3                             00000003
+MDCHODIS                          00000007
+MDCHPOL                           00000006
+MDCHSYNC                          00000005
+MDCL0                             00000000
+MDCL1                             00000001
+MDCL2                             00000002
+MDCL3                             00000003
+MDCLODIS                          00000007
+MDCLPOL                           00000006
+MDCLSYNC                          00000005
+MDCON                             0000039C
+MDEN                              00000007
+MDMS0                             00000000
+MDMS1                             00000001
+MDMS2                             00000002
+MDMS3                             00000003
+MDMSODIS                          00000007
+MDOE                              00000006
+MDOPOL                            00000004
+MDOUT                             00000003
+MDSLR                             00000005
+MDSRC                             0000039D
+MENSAJE                           00000024
+MFIOFR                            00000002
+NOT_BOR                           00000000
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_RI                            00000002
+NOT_RMCLR                         00000003
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+NOT_WPUEN                         00000007
+NUM1                              00000120
+NUM2                              00000121
+NUM3                              00000122
+OERR                              00000001
+OPTION_REG                        00000095
+OSCCON                            00000099
+OSCSTAT                           0000009A
+OSCTUNE                           00000098
+OSFIE                             00000007
+OSFIF                             00000007
+OSTS                              00000005
+OTRA1                             00000068
+OTRA15                            00000077
+OTRA25                            00000075
+OTRA5                             00000079
+OTRAR                             0000006A
+P                                 00000004
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+P1CSEL                            00000001
+P1DC0                             00000000
+P1DC1                             00000001
+P1DC2                             00000002
+P1DC3                             00000003
+P1DC4                             00000004
+P1DC5                             00000005
+P1DC6                             00000006
+P1DSEL                            00000002
+P1M0                              00000006
+P1M1                              00000007
+P1RSEN                            00000007
+P2BSEL                            00000004
+P2DC0                             00000000
+P2DC1                             00000001
+P2DC2                             00000002
+P2DC3                             00000003
+P2DC4                             00000004
+P2DC5                             00000005
+P2DC6                             00000006
+P2M0                              00000006
+P2M1                              00000007
+P2RSEN                            00000007
+PCIE                              00000006
+PCL                               00000002
+PCLATH                            0000000A
+PCLATH_SHAD                       00000FE7
+PCON                              00000096
+PEIE                              00000006
+PEN                               00000002
+PIE1                              00000091
+PIE2                              00000092
+PIE3                              00000093
+PIE4                              00000094
+PIR1                              00000011
+PIR2                              00000012
+PIR3                              00000013
+PIR4                              00000014
+PLLR                              00000006
+PORTA                             0000000C
+PORTB                             0000000D
+PR2                               0000001B
+PR4                               00000416
+PR6                               0000041D
+PROGRAMA                          00000017
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+PSS1AC0                           00000002
+PSS1AC1                           00000003
+PSS1BD0                           00000000
+PSS1BD1                           00000001
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PSS2AC0                           00000002
+PSS2AC1                           00000003
+PSS2BD0                           00000000
+PSS2BD1                           00000001
+PSTR1CON                          00000296
+PSTR2CON                          0000029D
+PWM1CON                           00000294
+PWM2CON                           0000029B
+RA0                               00000000
+RA1                               00000001
+RA2                               00000002
+RA3                               00000003
+RA4                               00000004
+RA5                               00000005
+RA6                               00000006
+RA7                               00000007
+RB0                               00000000
+RB1                               00000001
+RB2                               00000002
+RB3                               00000003
+RB4                               00000004
+RB5                               00000005
+RB6                               00000006
+RB7                               00000007
+RCEN                              00000003
+RCIDL                             00000006
+RCIE                              00000005
+RCIF                              00000005
+RCREG                             00000199
+RCSTA                             0000019D
+RD                                00000000
+RENGLON1                          00000080
+RENGLON2                          000000C0
+RETARDO5MS                        00000073
+RETARDO_1SEG                      00000066
+RS                                LATA,6
+RSEN                              00000001
+RX9                               00000006
+RX9D                              00000000
+RXDTSEL                           00000007
+R_NOT_W                           00000002
+S                                 00000003
+SBCDE                             00000002
+SBOREN                            00000007
+SCIE                              00000005
+SCKP                              00000004
+SCS0                              00000000
+SCS1                              00000001
+SDAHT                             00000003
+SDO1SEL                           00000006
+SEN                               00000000
+SENDB                             00000003
+SHIFT                             00000123
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SHIFTCL                           00000014
+SHIFTCR                           00000010
+SHIFTDL                           0000001C
+SHIFTDR                           00000018
+SMP                               00000007
+SPBRG                             0000019B
+SPBRGH                            0000019C
+SPBRGL                            0000019B
+SPEN                              00000007
+SPLLEN                            00000007
+SRCLK0                            00000004
+SRCLK1                            00000005
+SRCLK2                            00000006
+SRCON0                            0000011A
+SRCON1                            0000011B
+SREN                              00000005
+SRLEN                             00000007
+SRNQEN                            00000002
+SRPR                              00000000
+SRPS                              00000001
+SRQEN                             00000003
+SRRC1E                            00000000
+SRRC2E                            00000001
+SRRCKE                            00000002
+SRRPE                             00000003
+SRSC1E                            00000004
+SRSC2E                            00000005
+SRSCKE                            00000006
+SRSPE                             00000007
+SS1SEL                            00000005
+SSP1ADD                           00000212
+SSP1BUF                           00000211
+SSP1CON1                          00000215
+SSP1CON2                          00000216
+SSP1CON3                          00000217
+SSP1IE                            00000003
+SSP1IF                            00000003
+SSP1MSK                           00000213
+SSP1STAT                          00000214
+SSP2ADD                           0000021A
+SSP2BUF                           00000219
+SSP2CON1                          0000021D
+SSP2CON2                          0000021E
+SSP2CON3                          0000021F
+SSP2IE                            00000000
+SSP2IF                            00000000
+SSP2MSK                           0000021B
+SSP2STAT                          0000021C
+SSPADD                            00000212
+SSPBUF                            00000211
+SSPCON                            00000215
+SSPCON1                           00000215
+SSPCON2                           00000216
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 18
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+SSPCON3                           00000217
+SSPEN                             00000005
+SSPM0                             00000000
+SSPM1                             00000001
+SSPM2                             00000002
+SSPM3                             00000003
+SSPMSK                            00000213
+SSPOV                             00000006
+SSPSTAT                           00000214
+STATUS                            00000003
+STATUS_SHAD                       00000FE4
+STKOVF                            00000007
+STKPTR                            00000FED
+STKUNF                            00000006
+STR1A                             00000000
+STR1B                             00000001
+STR1C                             00000002
+STR1D                             00000003
+STR1SYNC                          00000004
+STR2A                             00000000
+STR2B                             00000001
+STR2C                             00000002
+STR2D                             00000003
+STR2SYNC                          00000004
+SWDTEN                            00000000
+SYNC                              00000004
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T0XCS                             00000000
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000018
+T1GCON                            00000019
+T1GGO                             00000003
+T1GPOL                            00000006
+T1GSPM                            00000004
+T1GSS0                            00000000
+T1GSS1                            00000001
+T1GTM                             00000005
+T1GVAL                            00000002
+T1OSCEN                           00000003
+T1OSCR                            00000007
+T2CKPS0                           00000000
+T2CKPS1                           00000001
+T2CON                             0000001C
+T2OUTPS0                          00000003
+T2OUTPS1                          00000004
+T2OUTPS2                          00000005
+T2OUTPS3                          00000006
+T4CKPS0                           00000000
+T4CKPS1                           00000001
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 19
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+T4CON                             00000417
+T4OUTPS0                          00000003
+T4OUTPS1                          00000004
+T4OUTPS2                          00000005
+T4OUTPS3                          00000006
+T6CKPS0                           00000000
+T6CKPS1                           00000001
+T6CON                             0000041E
+T6OUTPS0                          00000003
+T6OUTPS1                          00000004
+T6OUTPS2                          00000005
+T6OUTPS3                          00000006
+TMR0                              00000015
+TMR0CS                            00000005
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR0SE                            00000004
+TMR1                              00000016
+TMR1CS0                           00000006
+TMR1CS1                           00000007
+TMR1GE                            00000007
+TMR1GIE                           00000007
+TMR1GIF                           00000007
+TMR1H                             00000017
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             00000016
+TMR1ON                            00000000
+TMR2                              0000001A
+TMR2IE                            00000001
+TMR2IF                            00000001
+TMR2ON                            00000002
+TMR4                              00000415
+TMR4IE                            00000001
+TMR4IF                            00000001
+TMR4ON                            00000002
+TMR6                              0000041C
+TMR6IE                            00000003
+TMR6IF                            00000003
+TMR6ON                            00000002
+TOSH                              00000FEF
+TOSL                              00000FEE
+TRISA                             0000008C
+TRISA0                            00000000
+TRISA1                            00000001
+TRISA2                            00000002
+TRISA3                            00000003
+TRISA4                            00000004
+TRISA5                            00000005
+TRISA6                            00000006
+TRISA7                            00000007
+TRISB                             0000008D
+TRISB0                            00000000
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 20
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISB1                            00000001
+TRISB2                            00000002
+TRISB3                            00000003
+TRISB4                            00000004
+TRISB5                            00000005
+TRISB6                            00000006
+TRISB7                            00000007
+TRMT                              00000001
+TSEN                              00000005
+TSRNG                             00000004
+TUN0                              00000000
+TUN1                              00000001
+TUN2                              00000002
+TUN3                              00000003
+TUN4                              00000004
+TUN5                              00000005
+TX9                               00000006
+TX9D                              00000000
+TXCKSEL                           00000000
+TXEN                              00000005
+TXIE                              00000004
+TXIF                              00000004
+TXREG                             0000019A
+TXSTA                             0000019E
+UA                                00000001
+VUELTA                            0000001C
+W                                 00000000
+WCOL                              00000007
+WDTCON                            00000097
+WDTPS0                            00000001
+WDTPS1                            00000002
+WDTPS2                            00000003
+WDTPS3                            00000004
+WDTPS4                            00000005
+WPUA                              0000020C
+WPUA5                             00000005
+WPUB                              0000020D
+WPUB0                             00000000
+WPUB1                             00000001
+WPUB2                             00000002
+WPUB3                             00000003
+WPUB4                             00000004
+WPUB5                             00000005
+WPUB6                             00000006
+WPUB7                             00000007
+WR                                00000001
+WREG                              00000009
+WREG_SHAD                         00000FE5
+WREN                              00000002
+WRERR                             00000003
+WUE                               00000001
+Z                                 00000002
+Z_SHAD                            00000002
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 21
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_BOREN_NSLEEP                     0000FDFF
+_BOREN_OFF                        0000F9FF
+_BOREN_ON                         0000FFFF
+_BOREN_SBODEN                     0000FBFF
+_BORV_19                          0000FFFF
+_BORV_HI                          0000FBFF
+_BORV_LO                          0000FFFF
+_CLKOUTEN_OFF                     0000FFFF
+_CLKOUTEN_ON                      0000F7FF
+_CONFIG1                          00008007
+_CONFIG2                          00008008
+_CPD_OFF                          0000FFFF
+_CPD_ON                           0000FEFF
+_CP_OFF                           0000FFFF
+_CP_ON                            0000FF7F
+_DEVID1                           00008006
+_FCMEN_OFF                        0000DFFF
+_FCMEN_ON                         0000FFFF
+_FOSC_ECH                         0000FFFF
+_FOSC_ECL                         0000FFFD
+_FOSC_ECM                         0000FFFE
+_FOSC_EXTRC                       0000FFFB
+_FOSC_HS                          0000FFFA
+_FOSC_INTOSC                      0000FFFC
+_FOSC_LP                          0000FFF8
+_FOSC_XT                          0000FFF9
+_IDLOC0                           00008000
+_IDLOC1                           00008001
+_IDLOC2                           00008002
+_IDLOC3                           00008003
+_IESO_OFF                         0000EFFF
+_IESO_ON                          0000FFFF
+_LVP_OFF                          0000DFFF
+_LVP_ON                           0000FFFF
+_MCLRE_OFF                        0000FFBF
+_MCLRE_ON                         0000FFFF
+_PLLEN_OFF                        0000FEFF
+_PLLEN_ON                         0000FFFF
+_PWRTE_OFF                        0000FFFF
+_PWRTE_ON                         0000FFDF
+_STVREN_OFF                       0000FDFF
+_STVREN_ON                        0000FFFF
+_WDTE_NSLEEP                      0000FFF7
+_WDTE_OFF                         0000FFE7
+_WDTE_ON                          0000FFFF
+_WDTE_SWDTEN                      0000FFEF
+_WRT_ALL                          0000FFFC
+_WRT_BOOT                         0000FFFE
+_WRT_HALF                         0000FFFD
+_WRT_OFF                          0000FFFF
+__16F1827                         00000001
+__DEBUG                           1
+MPASM  5.48             LCD8B_ROTAMENSAJE.ASM   6-8-2013  12:41:53         PAGE 22
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+8000 : -------XX------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   127
+Program Memory Words Free:  3969
+
+
+Errors   :     0
+Warnings :     2 reported,     0 suppressed
+Messages :     6 reported,    30 suppressed
+
+

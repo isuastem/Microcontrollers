@@ -1,0 +1,254 @@
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	INCLUDE <P16F1827.INC> 					;DECLARO LA LIBRERIA DEL MICROCONTROLADOR CORRESPONDIENTE
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;P A L A B R A   D E   C O N F I G U R A C I O N
+
+       __CONFIG   _CONFIG1, _FOSC_INTOSC & _WDTE_OFF & _PWRTE_ON & _MCLRE_OFF & _CP_OFF & _CPD_OFF & _BOREN_ON & _CLKOUTEN_OFF & _IESO_OFF & _FCMEN_OFF
+       __CONFIG   _CONFIG2, _WRT_OFF & _PLLEN_ON & _STVREN_ON  & _LVP_OFF	
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+
+;_-_-_-_-_-_-W W W . M E C A T R O N I C A D I G I T A L . C O M_-_-_-_-_-_-
+;_-_-I N G .   C A R L O S  A L B E R T O  T O R R E S  C O L I N_-_-_
+;D E P A R T A M E N T O  D E   I N V E S T I G A C I O N   Y   D E S A R R O L L O
+;_-_-_-_-_-_-_-_-W W W . F O R O S . M E X A T R O N I C A . C O M_-_-_-_-_-_-_-_-_-_-
+
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	
+	ERRORLEVEL  -207            				; ELIMINO DE LA VENTANA DE COMPILACION EL ERROR 207
+	ERRORLEVEL  -302            				; ELIMINO DE LA VENTANA DE COMPILACION EL ERROR 302
+	ERRORLEVEL  -305            				; ELIMINO DE LA VENTANA DE COMPILACION EL ERROR 305
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	
+	CBLOCK	0X120							;DECLARO LOS REGISTROS DE PROPOSITO GENERAL A USAR (VARIABLES)
+	NUM,NUM1,NUM2,NUM3,DEL_TMP0,DEL_TMP1,DEL_TMP2,NUM10,NUM20,NUM30,PORTLCDT,CAMBIO,PORTBTEMP 
+	ENDC
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	ORG	0X00
+			GOTO CONF						;DECLARO EL VECTOR DE INICIO O RESET
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	ORG	0X04	
+			RETFIE							; DECLARO EL VECTOR DE INTERRUPCION
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-		
+
+CONF:
+		BANKSEL	OSCCON		
+		MOVLW		B'11110000'	;CONFIGURO EL REGISTRO OSCCON
+		MOVWF		OSCCON
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-			
+	
+		BANKSEL ANSELB
+		CLRF ANSELB
+		
+		BANKSEL TRISB ;DIRECCIONAMOS EL PUERTO B
+		BSF TRISB,1
+		BSF TRISB,2
+		BSF TRISB,3
+		BSF TRISB,4
+		BSF TRISB,5
+		BSF TRISB,6
+
+		BANKSEL TRISA
+		CLRF TRISA
+
+		BANKSEL LATB
+    	CLRF LATB
+
+		GOTO 	INICIO
+
+INICIO
+					CLRF	LATA			;APAGO MOTOR
+					CALL	RETARDO_5mS		;LLAMO UN RETARDO DE 5 MILISEGUNDOS
+
+					GOTO	PROGRAMA
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-		
+; C O N T R O L  D E  U N  M O T O R  A  P A S O S
+; P R O G R A M A   P R I N C I P A L
+
+PROGRAMA:
+			BANKSEL PORTB
+			BTFSS PORTB,1
+			GOTO $-1
+
+ARRANQUE
+			BANKSEL LATA
+			BSF	LATA,0			;ENCIENDO EL PIN PORTA,0, BOBINA DE INICIO.
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 5 MILISEGUNDOS
+			BCF	LATA,0			;APAGO EL PIN PORTA,0
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 1S 
+			BSF	LATA,1			;ENCIENDO EL PIN PORTA,1, BOBINA SECUENCIAL.
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 5 MILISEGUNDOS
+			BCF	LATA,1			;APAGO EL PIN PORTA,1
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 5 MILISEGUNDOS
+			BSF	LATA,2			;ENCIENDO EL PIN PORTA,2
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 1SEGUNDO				
+			BCF	LATA,2			;APAGO EL PIN PORTA,2
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 5 MILISEGUNDOS
+			BSF	LATA,3			;ENCIENDO EL PIN PORTA,3
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 1SEGUNDO				
+			BCF	LATA,3			;APAGO EL PIN PORTA,3
+			CALL	RETARDO_5mS	;LLAMO UN RETARDO DE 5 MILISEGUNDOS
+
+			BANKSEL PORTB
+			BTFSS PORTB,2
+			GOTO ARRANQUE
+
+			BANKSEL LATA
+			CLRF	LATA			;APAGO MOTOR
+	
+
+			GOTO	PROGRAMA		;SALTO A LA ETIQUETA PROGRAMA
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-	
+; S U B R U T I N A S
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+; S U B R U T I N A  D E   R E T A R D O
+RETARDO_5mS:
+			MOVLW	.5 	
+			MOVWF	NUM3
+
+OTRA1M:		MOVLW	.7
+			MOVWF	NUM2
+
+OTRA0M:		MOVLW	.46
+			MOVWF	NUM1
+			DECFSZ	NUM1,F
+			GOTO	$-1
+			DECFSZ	NUM2
+			GOTO	OTRA0M
+
+			
+			DECFSZ	NUM3
+			GOTO	OTRA1M
+			NOP
+			NOP
+			NOP
+			RETURN
+
+RETARDO_5_1mS:
+			MOVLW	.3
+			MOVWF	NUM3
+
+OTRA5_1M:	MOVLW	.11
+			MOVWF	NUM2
+
+OTRA5_0M:	MOVLW	.49
+			MOVWF	NUM1
+			DECFSZ	NUM1,F
+			GOTO	$-1
+			DECFSZ	NUM2
+			GOTO	OTRA5_0M
+
+			DECFSZ	NUM3
+			GOTO	OTRA5_1M
+			RETURN
+
+RETARDO_5ms_E:
+			MOVLW	.2	
+			MOVWF	NUM3
+
+OTRA5_1EM:	MOVLW	.9
+			MOVWF	NUM2
+
+OTRA5_0EM:	MOVLW	.91
+			MOVWF	NUM1
+			DECFSZ	NUM1,F
+			GOTO	$-1
+			DECFSZ	NUM2
+			GOTO	OTRA5_0EM
+
+			DECFSZ	NUM3
+			GOTO	OTRA5_1EM
+			RETURN
+
+RETARDO_15ms_E:
+			MOVLW	.6	
+			MOVWF	NUM3
+
+OTRA5_15EM:	MOVLW	.9
+			MOVWF	NUM2
+
+OTRA5_05EM:	MOVLW	.91
+			MOVWF	NUM1
+			DECFSZ	NUM1,F
+			GOTO	$-1
+			DECFSZ	NUM2
+			GOTO	OTRA5_05EM
+			NOP
+			NOP
+			DECFSZ	NUM3
+			GOTO	OTRA5_15EM
+			RETURN
+
+RETARDO_V:
+			MOVF	CAMBIO,W
+			MOVWF	NUM3
+
+OTRA1V:		MOVLW	.7
+			MOVWF	NUM2
+
+OTRA0V:		MOVLW	.46
+			MOVWF	NUM1
+			DECFSZ	NUM1,F
+			GOTO	$-1
+			DECFSZ	NUM2
+			GOTO	OTRA0V
+
+			NOP
+			DECFSZ	NUM3
+			GOTO	OTRA1V
+			RETURN
+
+RETARDO_15mS:
+			CALL RETARDO_5ms_E
+			CALL RETARDO_5mS
+			CALL RETARDO_5mS
+			RETURN
+
+RETARDO_1S:
+			MOVLW	.10 
+			MOVWF	NUM3
+
+OTRA1S:		MOVLW	.200
+			MOVWF	NUM2
+
+OTRA0S:		MOVLW	.166
+			MOVWF	NUM1
+			DECFSZ	NUM1,F
+			GOTO	$-1
+			DECFSZ	NUM2
+			GOTO	OTRA0S
+
+			DECFSZ	NUM3
+			GOTO	OTRA1S
+			RETURN
+
+RETARDO_500mS:
+			MOVLW	.10 	
+			MOVWF	NUM3
+
+OTRA1500mS:	MOVLW	.99
+			MOVWF	NUM2
+
+OTRA0500mS:	MOVLW	.167
+			MOVWF	NUM1
+			DECFSZ	NUM1,F
+			GOTO	$-1
+			DECFSZ	NUM2
+			GOTO	OTRA0500mS
+
+			DECFSZ	NUM3
+			GOTO	OTRA1500mS
+			RETURN
+
+;_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+	END 		;D I R E C T R I Z   D E   F I N A L   D E   P R O G R A M A

@@ -1,0 +1,61 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Tue Jun 04 14:37:45 2013
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000da
+.config_8007_LCD8B_MENSAJE.O       code   0x008007    program   0x000002
+.config_8008_LCD8B_MENSAJE.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000070      
+                            0x008007    0x008008      
+            112 out of 4359 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                      CMD   0x000050    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                     DATO   0x000046    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                   INICIO   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                  INITLCD   0x000030    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                    OTRA1   0x000059    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                   OTRA15   0x000068    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                   OTRA25   0x000066    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                    OTRA5   0x00006a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                    OTRAR   0x00005b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                 PROGRAMA   0x000017    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+               RETARDO5MS   0x000064    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+             RETARDO_1SEG   0x000057    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                       YA   0x00002f    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000005    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                 PROGRAMA   0x000017    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                       YA   0x00002f    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                  INITLCD   0x000030    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                     DATO   0x000046    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                      CMD   0x000050    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+             RETARDO_1SEG   0x000057    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                    OTRA1   0x000059    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                    OTRAR   0x00005b    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+               RETARDO5MS   0x000064    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                   OTRA25   0x000066    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                   OTRA15   0x000068    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+                    OTRA5   0x00006a    program     static C:\Microcontrollers\Cursos\PIC Básico - PIC16F1827\Programacion\Clase 5 - LCD 8 Bits\LCD8B_Mensaje.asm
+
+

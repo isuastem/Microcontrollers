@@ -1,0 +1,57 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Wed Jan 29 00:29:31 2014
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000dc
+   .config_8007_IHOME_1.O       code   0x008007    program   0x000002
+   .config_8008_IHOME_1.O       code   0x008008    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x000071      
+                            0x008007    0x008008      
+            113 out of 4359 program addresses used, program memory utilization is 2%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                  APAGA_1   0x000026    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                  APAGA_2   0x000036    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                  APAGA_3   0x000046    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                  APAGA_4   0x000056    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                   INICIO   0x000009    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_1   0x00001e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_2   0x00002e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_3   0x00003e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_4   0x00004e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                    START   0x00001d    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 UART_INI   0x00005e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   INICIO   0x000009    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                    START   0x00001d    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_1   0x00001e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                  APAGA_1   0x000026    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_2   0x00002e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                  APAGA_2   0x000036    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_3   0x00003e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                  APAGA_3   0x000046    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 PRENDE_4   0x00004e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                  APAGA_4   0x000056    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+                 UART_INI   0x00005e    program     static C:\Microcontrollers\Programacion\Familia 16F\PIC16F182X\Comunicacion_Serial\iHome_1.asm
+
+
